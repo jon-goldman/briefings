@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Briefing — Wednesday, April 1, 2026</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .page-wrap {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 24px 16px 64px;
+    }
+
+    /* ── HEADER ─────────────────────────────────────── */
+    .header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: #111827;
+    }
+    .header .date-sub {
+      font-size: 13px;
+      color: #6b7280;
+      font-weight: 400;
+    }
+
+    /* ── MEMORY BAR ──────────────────────────────────── */
+    .memory-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 8px 14px;
+      margin-bottom: 12px;
+      font-size: 12.5px;
+      color: #6b7280;
+      flex-wrap: wrap;
+    }
+    #mem-btn {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 4px 11px;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    #mem-btn:hover { background: #1d4ed8; }
+    #mem-btn.connected { background: #16a34a; cursor: default; }
+    #mem-status {
+      font-size: 11.5px;
+      color: #6b7280;
+      flex: 1;
+    }
+    #mem-save-indicator {
+      font-size: 11px;
+      color: #16a34a;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    #mem-save-indicator.visible { opacity: 1; }
+    .mem-notion-link {
+      font-size: 11px;
+      color: #9ca3af;
+      text-decoration: none;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+    .mem-notion-link:hover { color: #6b7280; text-decoration: underline; }
+
+    /* ── SECTION TITLES ──────────────────────────────── */
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #9ca3af;
+      margin: 20px 0 8px;
+    }
+
+    /* ── WEATHER BAR ─────────────────────────────────── */
+    .weather-bar {
+      background: linear-gradient(90deg, #dbeafe 0%, #e0f2fe 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-size: 13.5px;
+      color: #1e40af;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .weather-bar .wi { font-size: 18px; }
+
+    /* ── TIMELINE ────────────────────────────────────── */
+    .timeline { position: relative; padding-left: 22px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 4px;
+      bottom: 4px;
+      width: 2px;
+      background: #e5e7eb;
+      border-radius: 2px;
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 10px;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -18px;
+      top: 7px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #9ca3af;
+    }
+    .tl-item.class-block::before { background: #2563eb; }
+    .tl-item.free-block::before { background: #d1d5db; width: 6px; height: 6px; top: 8px; left: -17px; }
+
+    .tl-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 10px 13px;
+    }
+    .tl-item.class-block .tl-card { border-left: 3px solid #2563eb; }
+    .tl-item.free-block .tl-card {
+      background: #f9fafb;
+      border-style: dashed;
+      color: #9ca3af;
+      font-size: 12.5px;
+    }
+
+    .tl-time {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #6b7280;
+      margin-bottom: 2px;
+    }
+    .tl-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 2px;
+    }
+    .tl-sub {
+      font-size: 12.5px;
+      color: #6b7280;
+      margin-bottom: 2px;
+    }
+    .tl-note {
+      font-size: 12px;
+      color: #059669;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+    .tl-reading {
+      font-size: 12px;
+      color: #7c3aed;
+      margin-top: 3px;
+    }
+
+    /* ── ON THE RADAR ────────────────────────────────── */
+    .radar-list { list-style: none; }
+    .radar-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 5px 0;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 13px;
+    }
+    .radar-list li:last-child { border-bottom: none; }
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .dot-red    { background: #dc2626; }
+    .dot-orange { background: #ea580c; }
+    .dot-yellow { background: #ca8a04; }
+    .dot-blue   { background: #2563eb; }
+    .dot-gray   { background: #9ca3af; }
+    .radar-date {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #6b7280;
+      min-width: 82px;
+      flex-shrink: 0;
+    }
+    .radar-text { color: #374151; }
+    .radar-ctx  { color: #9ca3af; font-size: 12px; }
+    .radar-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+    .badge-urgent { background: #fee2e2; color: #b91c1c; }
+    .badge-warn   { background: #ffedd5; color: #c2410c; }
+
+    /* ── INBOX ───────────────────────────────────────── */
+    .inbox-list { list-style: none; }
+    .inbox-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 5px 0;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .inbox-list li:last-child { border-bottom: none; }
+    .inbox-sender { font-weight: 600; color: #111827; min-width: 120px; flex-shrink: 0; font-size: 12.5px; }
+    .inbox-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      text-transform: uppercase;
+    }
+    .badge-act  { background: #fee2e2; color: #b91c1c; }
+    .badge-dollar { background: #d1fae5; color: #065f46; }
+    .badge-sec  { background: #fef3c7; color: #92400e; }
+    .badge-fyi  { background: #f3f4f6; color: #6b7280; }
+    .inbox-note { color: #4b5563; }
+    .inbox-muted { color: #9ca3af !important; font-size: 12px !important; }
+    .inbox-divider {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #d1d5db;
+      padding: 8px 0 4px;
+    }
+
+    /* ── IMPROVEMENT ─────────────────────────────────── */
+    .improvement-card {
+      border: 1.5px dashed #d1d5db;
+      border-radius: 8px;
+      padding: 11px 14px;
+      background: #fafafa;
+      font-size: 13px;
+      color: #4b5563;
+      line-height: 1.6;
+    }
+    .improvement-card strong { color: #374151; }
+
+    /* ── ACTION ITEMS ────────────────────────────────── */
+    .action-group-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #9ca3af;
+      padding: 12px 0 5px;
+    }
+    .action-group-label:first-child { padding-top: 0; }
+
+    .action-list { list-style: none; }
+    .action-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 5px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .action-list li:last-child { border-bottom: none; }
+    .action-list input[type="checkbox"] {
+      margin-top: 2px;
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+      flex-shrink: 0;
+      accent-color: #2563eb;
+    }
+    .al {
+      font-size: 13px;
+      color: #1f2937;
+      line-height: 1.4;
+      transition: color 0.15s;
+    }
+    .al.done {
+      text-decoration: line-through;
+      color: #9ca3af;
+    }
+    .al .tag {
+      font-size: 11px;
+      color: #9ca3af;
+      font-weight: 400;
+      margin-left: 4px;
+    }
+    .al a { color: #2563eb; text-decoration: none; font-size: 12px; }
+    .al a:hover { text-decoration: underline; }
+
+    /* ── CARD WRAPPER ────────────────────────────────── */
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Daily Briefing</h1>
+    <span class="date-sub">Wednesday · April 1, 2026</span>
+  </div>
+
+  <!-- MEMORY BAR -->
+  <div class="memory-bar">
+    <button id="mem-btn" onclick="connectMemory()">Connect Notion</button>
+    <span id="mem-status">Enter token once per device — syncs across computer &amp; mobile</span>
+    <span id="mem-save-indicator">Saved ✓</span>
+    <a href="https://www.notion.so/335f38f0e3278181b36cd952abcf438e" target="_blank" class="mem-notion-link">View memory in Notion ↗</a>
+  </div>
+
+  <!-- SECTION 1: WEATHER -->
+  <div class="section-title">Weather</div>
+  <div class="weather-bar">
+    <span class="wi">🌤</span>
+    <span>NYC · Partly sunny · High ~76°F / Low ~55°F · Warm spring day, ~21°F above seasonal normal — great weather to be outside between classes.</span>
+  </div>
+
+  <!-- SECTION 2: TODAY AT A GLANCE -->
+  <div class="section-title">Today at a Glance — Wed Apr 1</div>
+  <div class="card">
+    <div class="timeline">
+
+      <div class="tl-item free-block">
+        <div class="tl-card">
+          <div>Morning free · until 12:10pm</div>
+        </div>
+      </div>
+
+      <div class="tl-item class-block">
+        <div class="tl-card">
+          <div class="tl-time">12:10 – 2:50 pm &nbsp;·&nbsp; 2h 40m</div>
+          <div class="tl-title">Design Studio — Transdisciplinary Project 2</div>
+          <div class="tl-sub">6 East 16th Ave, TD Studio &nbsp;·&nbsp; Carlos Celis &amp; Iman Raad</div>
+          <div class="tl-note">Week 10: Series Proposal Workshop + 1:1 meetings · No readings due</div>
+        </div>
+      </div>
+
+      <div class="tl-item free-block">
+        <div class="tl-card">
+          <div>Free from 2:50 pm — use for Midterm writing &amp; Prompt 3 (both due soon)</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 3: ON THE RADAR -->
+  <div class="section-title">On the Radar</div>
+  <div class="card">
+    <ul class="radar-list">
+      <li>
+        <div class="dot dot-red"></div>
+        <span class="radar-date">Thu Apr 2</span>
+        <span class="radar-text"><strong>Prompt 3 (Animating Resistance)</strong> due BEFORE class</span>
+        <span class="radar-badge badge-urgent">Tomorrow</span>
+      </li>
+      <li>
+        <div class="dot dot-red"></div>
+        <span class="radar-date">Thu Apr 2</span>
+        <span class="radar-text">Read Gunning "Animating the Instant" pp. 37–53 (~50 min) before class</span>
+        <span class="radar-badge badge-urgent">Tomorrow</span>
+      </li>
+      <li>
+        <div class="dot dot-red"></div>
+        <span class="radar-date">Thu Apr 2 · 7pm</span>
+        <span class="radar-text"><strong>Animating Resistance class</strong> · 6 E 16th St, Room 611 (7:00–9:40pm)</span>
+        <span class="radar-ctx">+ Aunt Ronni's birthday</span>
+      </li>
+      <li>
+        <div class="dot dot-orange"></div>
+        <span class="radar-date">Sat Apr 4</span>
+        <span class="radar-text"><strong>Midterm — Boundaries &amp; Belonging</strong> due 11:59pm · 7–9 pages</span>
+        <span class="radar-badge badge-warn">3 days</span>
+      </li>
+      <li>
+        <div class="dot dot-orange"></div>
+        <span class="radar-date">Sun Apr 5</span>
+        <span class="radar-text"><strong>Parsons Animation Festival</strong> submission due midnight (in progress)</span>
+        <span class="radar-badge badge-warn">4 days</span>
+      </li>
+      <li>
+        <div class="dot dot-yellow"></div>
+        <span class="radar-date">Mon Apr 6 · 6pm</span>
+        <span class="radar-text"><strong>Commentary #1 — Politics of the Archive</strong> due · 5 days remaining</span>
+        <span class="radar-ctx">First of three (Apr 6 · Apr 20 · May 4)</span>
+      </li>
+      <li>
+        <div class="dot dot-yellow"></div>
+        <span class="radar-date">Mon–Wed Apr 6–8</span>
+        <span class="radar-text"><strong>Design Studio Assignment 4</strong> due window opens</span>
+      </li>
+      <li>
+        <div class="dot dot-yellow"></div>
+        <span class="radar-date">Tue Apr 7</span>
+        <span class="radar-text"><strong>Fine Cuts Invitational Film Show</strong> submission deadline</span>
+      </li>
+      <li>
+        <div class="dot dot-gray"></div>
+        <span class="radar-date">Thu Apr 9</span>
+        <span class="radar-text">Animating Resistance class · no reading due Week 11</span>
+      </li>
+      <li>
+        <div class="dot dot-gray"></div>
+        <span class="radar-date">Mon Apr 20 · 6pm</span>
+        <span class="radar-text">Commentary #2 — Politics of the Archive</span>
+      </li>
+      <li>
+        <div class="dot dot-gray"></div>
+        <span class="radar-date">Thu Apr 23</span>
+        <span class="radar-text">No Animating Resistance class · makeup May 15</span>
+      </li>
+      <li>
+        <div class="dot dot-gray"></div>
+        <span class="radar-date">Sun Apr 27–29</span>
+        <span class="radar-text">Design Studio Assignment 3 due window</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- SECTION 4: INBOX -->
+  <div class="section-title">Inbox</div>
+  <div class="card">
+    <ul class="inbox-list">
+      <li class="inbox-divider" style="display:block">— New —</li>
+      <li>
+        <span class="inbox-sender">Chase Freedom®</span>
+        <span class="inbox-badge badge-dollar">$</span>
+        <span class="inbox-note">Q2 5% cashback activation required — Amazon, Chase Travel &amp; Feeding America through 6/30/26; activate by Jun 14. You have $790.76 in rewards (acct …5343).</span>
+      </li>
+      <li>
+        <span class="inbox-sender">Ride for Mental Health</span>
+        <span class="inbox-badge badge-fyi">FYI</span>
+        <span class="inbox-note">Discounted registration for Jun 27–28 ride (New Paltz, NY) ends tonight — decide if you want to sign up.</span>
+      </li>
+      <li>
+        <span class="inbox-sender inbox-muted">Newsletters ×6</span>
+        <span class="inbox-note inbox-muted">ArtRabbit · Word Is Change Books · Arapahoe Basin · Claude Code tips · Harvard GSD · Parsons News — no action needed.</span>
+      </li>
+
+      <li class="inbox-divider" style="display:block">— Lingering —</li>
+      <li>
+        <span class="inbox-sender">Print Club (BFAPF)</span>
+        <span class="inbox-badge badge-act">Act</span>
+        <span class="inbox-note">Deadlines for print drop-off (Mar 23) and exhibitor form (Mar 25) have passed — <strong>confirm these are done</strong> or follow up with Print Club.</span>
+      </li>
+      <li>
+        <span class="inbox-sender">Heilbroner Center</span>
+        <span class="inbox-badge badge-act">Act</span>
+        <span class="inbox-note">$3,000 fellowship for 2026–27 thesis writing — application requirements in attached PDF; <strong>check deadline</strong> before deciding.</span>
+      </li>
+      <li>
+        <span class="inbox-sender">JVP Crown Heights</span>
+        <span class="inbox-badge badge-fyi">FYI</span>
+        <span class="inbox-note">Meeting notes from 3/22 shared; next meeting Apr 26 at Andy's — <strong>vote in Doodle poll</strong> for preferred time (link in email).</span>
+      </li>
+      <li>
+        <span class="inbox-sender">Jon → Jon</span>
+        <span class="inbox-badge badge-fyi">FYI</span>
+        <span class="inbox-note">Facebook link emailed to yourself (Mar 25) and two Center for Book Arts events saved (Artists' Book Launch + Shatter/Chatter Panel) — process when ready.</span>
+      </li>
+      <li>
+        <span class="inbox-sender">Jon → Jon</span>
+        <span class="inbox-badge badge-fyi">FYI</span>
+        <span class="inbox-note">Forwarded Phytogram scan notification from Animating Resistance Canvas — review scan added to class page if needed.</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- SECTION 5: IMPROVEMENT IDEA -->
+  <div class="section-title">Tomorrow's Briefing: One Idea</div>
+  <div class="improvement-card">
+    <strong>Add Parsons class blocks to Google Calendar.</strong> The calendar integration only surfaced one item today (Aunt Ronni's birthday) — all five courses are absent, so the timeline relies entirely on hardcoded syllabus data. Adding recurring events for each course would make the timeline richer, allow free-window calculations to be automatic, and let this briefing surface conflicts or short transitions (e.g. same-building back-to-back classes). This is a one-time setup that would pay off every day.
+  </div>
+
+  <!-- SECTION 6: ACTION ITEMS -->
+  <div class="section-title">Action Items</div>
+  <div class="card">
+
+    <div class="action-group-label">Today</div>
+    <ul class="action-list">
+      <li>
+        <input type="checkbox" data-id="chase-freedom-activation" onchange="toggle(this)">
+        <span class="al">Activate Chase Freedom Q2 5% cashback — Amazon, Chase Travel &amp; Feeding America (by Jun 14) <span class="tag">💳 Finance</span></span>
+      </li>
+    </ul>
+
+    <div class="action-group-label">By Thu Apr 2 (before 7pm class)</div>
+    <ul class="action-list">
+      <li>
+        <input type="checkbox" data-id="prompt3-animating" onchange="toggle(this)">
+        <span class="al">Complete Prompt 3 (Animating Resistance — collaborate) <span class="tag">🎬 Due before class</span></span>
+      </li>
+      <li>
+        <input type="checkbox" data-id="gunning-reading-w10" onchange="toggle(this)">
+        <span class="al">Read Gunning "Animating the Instant," pp. 37–53 (~50 min) <span class="tag">📖 Animating Resistance</span></span>
+      </li>
+      <li>
+        <input type="checkbox" data-id="aunt-ronni-birthday" onchange="toggle(this)">
+        <span class="al">Wish Aunt Ronni happy birthday <span class="tag">🎂 Apr 2</span></span>
+      </li>
+    </ul>
+
+    <div class="action-group-label">By Sat Apr 4 · 11:59pm</div>
+    <ul class="action-list">
+      <li>
+        <input type="checkbox" data-id="midterm-bb" onchange="toggle(this)">
+        <span class="al">Write Midterm — Boundaries &amp; Belonging (7–9 pages) <span class="tag">📝 UTNS 6000</span></span>
+      </li>
+    </ul>
+
+    <div class="action-group-label">By Sun Apr 5 · midnight</div>
+    <ul class="action-list">
+      <li>
+        <input type="checkbox" data-id="animation-festival" onchange="toggle(this)">
+        <span class="al">Submit to Parsons Animation Festival <span class="tag">🎞 In progress</span></span>
+      </li>
+    </ul>
+
+    <div class="action-group-label">By Mon Apr 6 · 6pm</div>
+    <ul class="action-list">
+      <li>
+        <input type="checkbox" data-id="commentary-apr6" onchange="toggle(this)">
+        <span class="al">Draft Commentary #1 — Politics of the Archive <span class="tag">📚 GHIS 5201 · 5 days</span></span>
+      </li>
+      <li>
+        <input type="checkbox" data-id="design-studio-a4" onchange="toggle(this)">
+        <span class="al">Design Studio Assignment 4 <span class="tag">📐 PGTD 5101 · due Apr 6–8</span></span>
+      </li>
+    </ul>
+
+    <div class="action-group-label">By Tue Apr 7</div>
+    <ul class="action-list">
+      <li>
+        <input type="checkbox" data-id="fine-cuts-submission" onchange="toggle(this)">
+        <span class="al">Fine Cuts Invitational Film Show submission <span class="tag">🎬 NMDS 5446</span></span>
+      </li>
+    </ul>
+
+    <div class="action-group-label">Check + Errand</div>
+    <ul class="action-list">
+      <li>
+        <input type="checkbox" data-id="notion-running-list" onchange="toggle(this)">
+        <span class="al">Check Notion Running List → <a href="https://www.notion.so/e41e8cb040564393b856735dd028ee9f" target="_blank">Life Hub ↗</a> <span class="tag">📋 Could not retrieve</span></span>
+      </li>
+      <li>
+        <input type="checkbox" data-id="bfapf-confirm" onchange="toggle(this)">
+        <span class="al">Confirm BFAPF print drop-off + exhibitor form done (deadlines were Mar 23/25) <span class="tag">🖼 Printmaking</span></span>
+      </li>
+      <li>
+        <input type="checkbox" data-id="heilbroner-fellowship" onchange="toggle(this)">
+        <span class="al">Check Heilbroner Fellowship deadline — $3,000 thesis writing grant, PDF in email <span class="tag">📎 Opportunity</span></span>
+      </li>
+      <li>
+        <input type="checkbox" data-id="jvp-followup" onchange="toggle(this)">
+        <span class="al">JVP Crown Heights: vote in Doodle poll for Apr 26 meeting time <span class="tag">🗓 Community</span></span>
+      </li>
+      <li>
+        <input type="checkbox" data-id="facebook-link" onchange="toggle(this)">
+        <span class="al">Process saved Facebook link (emailed to yourself Mar 25) <span class="tag">🔗 Saved</span></span>
+      </li>
+      <li>
+        <input type="checkbox" data-id="ride-mental-health-reg" onchange="toggle(this)">
+        <span class="al">Decide: Ride for Mental Health discounted reg ends tonight (Jun 27–28, New Paltz) <span class="tag">🚴 Tonight</span></span>
+      </li>
+      <li>
+        <input type="checkbox" data-id="dr-churchill-message" onchange="toggle(this)">
+        <span class="al">Read Dr. Churchill therapist secure message <span class="tag">🔒 Health</span></span>
+      </li>
+      <li>
+        <input type="checkbox" data-id="iospa-billing" onchange="toggle(this)">
+        <span class="al">Handle Dr. Iospa billing document <span class="tag">💊 Health</span></span>
+      </li>
+      <li>
+        <input type="checkbox" data-id="southwest-credits" onchange="toggle(this)">
+        <span class="al">Verify Southwest credits on Venture X <span class="tag">✈ Finance</span></span>
+      </li>
+      <li>
+        <input type="checkbox" data-id="apple-receipt" onchange="toggle(this)">
+        <span class="al">Verify Apple receipt <span class="tag">🍎 Finance</span></span>
+      </li>
+      <li>
+        <input type="checkbox" data-id="mlb-signin" onchange="toggle(this)">
+        <span class="al">Check MLB sign-in alert <span class="tag">⚾ Security</span></span>
+      </li>
+      <li>
+        <input type="checkbox" data-id="car-keys" onchange="toggle(this)">
+        <span class="al">Get car keys from home <span class="tag">🔑 Errand</span></span>
+      </li>
+    </ul>
+
+    <div class="action-group-label">Done</div>
+    <ul class="action-list">
+      <li>
+        <input type="checkbox" data-id="rhetoric-image" checked onchange="toggle(this)">
+        <span class="al done">Rhetoric of the Image read (Design Studio Week 9) <span class="tag">✓ confirmed in syllabus</span></span>
+      </li>
+      <li>
+        <input type="checkbox" data-id="prompt4-animating" checked onchange="toggle(this)">
+        <span class="al done">Prompt 4 submitted (Animating Resistance) <span class="tag">✓ confirmed in syllabus</span></span>
+      </li>
+    </ul>
+
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+  const NOTION_MEMORY_PAGE = '335f38f0-e327-8181-b36c-d952abcf438e';
+  const NOTION_API = 'https://api.notion.com/v1';
+  const NOTION_VER = '2022-06-28';
+
+  let nToken = localStorage.getItem('notion_briefing_token') || '';
+  let nBlockId = null;
+  let memory = {};
+  let saveTimer = null;
+
+  async function connectMemory() {
+    const t = prompt(
+      'Paste your Notion Integration token (starts with secret_):\n\n' +
+      'Get one free at notion.so/profile/integrations\n' +
+      'Stored only in this browser\'s localStorage — enter once per device.'
+    );
+    if (!t || !t.trim()) return;
+    localStorage.setItem('notion_briefing_token', t.trim());
+    nToken = t.trim();
+    await loadMemory();
+  }
+
+  async function loadMemory() {
+    if (!nToken) return;
+    setMemStatus('Connecting…');
+    try {
+      const r = await fetch(
+        `${NOTION_API}/blocks/${NOTION_MEMORY_PAGE}/children?page_size=20`,
+        { headers: { 'Authorization': `Bearer ${nToken}`, 'Notion-Version': NOTION_VER } }
+      );
+      if (!r.ok) throw new Error(`API ${r.status} — check token & integration access`);
+      const d = await r.json();
+      const cb = d.results?.find(b => b.type === 'code' && b.code?.language === 'json');
+      if (!cb) throw new Error('JSON block not found in memory page');
+      nBlockId = cb.id;
+      const raw = cb.code.rich_text.map(t => t.plain_text).join('');
+      try { memory = JSON.parse(raw).completed || {}; } catch (_) {}
+      applyMemory();
+      const btn = document.getElementById('mem-btn');
+      btn.textContent = '✓ Notion synced';
+      btn.classList.add('connected');
+      btn.onclick = null;
+      setMemStatus('Memory loaded ✓', 2500);
+    } catch (e) {
+      setMemStatus('⚠ ' + e.message);
+      console.error('Notion memory:', e);
+    }
+  }
+
+  function setMemStatus(msg, clearAfter) {
+    const el = document.getElementById('mem-status');
+    if (!el) return;
+    el.textContent = msg;
+    if (clearAfter) setTimeout(() => { el.textContent = ''; }, clearAfter);
+  }
+
+  function applyMemory() {
+    document.querySelectorAll('input[type="checkbox"][data-id]').forEach(cb => {
+      if (memory[cb.dataset.id] && !cb.checked) {
+        cb.checked = true;
+        cb.parentElement.querySelector('.al')?.classList.add('done');
+      }
+    });
+  }
+
+  function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(persistMemory, 500); }
+
+  async function persistMemory() {
+    if (!nToken || !nBlockId) return;
+    const json = JSON.stringify({ completed: memory, updatedAt: new Date().toISOString() }, null, 2);
+    try {
+      const r = await fetch(`${NOTION_API}/blocks/${nBlockId}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${nToken}`,
+          'Notion-Version': NOTION_VER,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          code: {
+            rich_text: [{ type: 'text', text: { content: json } }],
+            language: 'json'
+          }
+        })
+      });
+      if (!r.ok) throw new Error(r.status);
+      const el = document.getElementById('mem-save-indicator');
+      el.classList.add('visible');
+      setTimeout(() => el.classList.remove('visible'), 1500);
+    } catch (e) { console.error('Notion save error:', e); }
+  }
+
+  function toggle(cb) {
+    cb.parentElement.querySelector('.al')?.classList.toggle('done', cb.checked);
+    const id = cb.dataset.id;
+    if (!id) return;
+    if (cb.checked) memory[id] = new Date().toISOString().split('T')[0];
+    else delete memory[id];
+    scheduleSave();
+  }
+
+  // Auto-connect on load if token already stored in this browser
+  if (nToken) loadMemory();
+</script>
+</body>
+</html>
