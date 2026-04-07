@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Briefing — April 7, 2026</title>
+<style>
+  :root {
+    --bg: #f8f7f5;
+    --card: #ffffff;
+    --border: #e8e4de;
+    --text: #1a1a1a;
+    --muted: #6b6560;
+    --accent: #2d6a4f;
+    --accent2: #c77c3a;
+    --danger: #c0392b;
+    --warning: #e67e22;
+    --info: #2980b9;
+    --done-text: #999;
+    --radius: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.55;
+    padding: 24px 16px 80px;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  .header { padding-bottom: 16px; border-bottom: 2px solid var(--border); margin-bottom: 16px; }
+  .header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+  .header .dateline { color: var(--muted); font-size: 13px; margin-top: 2px; }
+
+  /* MEMORY BAR */
+  .memory-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f0f4f1;
+    border: 1px solid #c8ddd0;
+    border-radius: var(--radius);
+    padding: 8px 14px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    flex-wrap: wrap;
+  }
+  #mem-btn {
+    background: #24292f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 4px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  #mem-btn.connected { background: #5a8f75; cursor: default; }
+  #mem-status { color: var(--muted); font-size: 12px; }
+  #mem-save-indicator {
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  #mem-save-indicator.visible { opacity: 1; }
+  .mem-gh-link { margin-left: auto; color: #24292f; font-size: 12px; text-decoration: none; white-space: nowrap; }
+  .mem-gh-link:hover { text-decoration: underline; }
+
+  .weather-bar {
+    background: #eef4fb;
+    border: 1px solid #c5d9ef;
+    border-radius: var(--radius);
+    padding: 8px 14px;
+    font-size: 13px;
+    color: var(--info);
+    margin-bottom: 18px;
+  }
+
+  .section { margin-bottom: 24px; }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    border-left: 2px solid var(--border);
+    padding-left: 16px;
+    position: relative;
+    margin-left: 8px;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 16px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    border: 2px solid white;
+  }
+  .tl-item.class-event::before { background: var(--accent); }
+  .tl-item.deadline-event::before { background: var(--danger); }
+  .tl-item.free-window { opacity: 0.5; }
+  .tl-item.free-window::before { background: #ccc; }
+  .tl-time { font-size: 12px; font-weight: 700; color: var(--muted); min-width: 80px; padding-top: 1px; font-variant-numeric: tabular-nums; }
+  .tl-content { flex: 1; }
+  .tl-title { font-weight: 600; font-size: 15px; }
+  .tl-title.free { font-weight: 400; font-style: italic; color: var(--muted); }
+  .tl-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .tl-readings { font-size: 12px; color: #555; margin-top: 5px; padding: 6px 10px; background: #f5f5f2; border-radius: 5px; border-left: 3px solid var(--accent); }
+  .tl-readings strong { color: var(--text); }
+  .deadline-badge { display: inline-block; background: var(--danger); color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 3px; vertical-align: middle; margin-left: 6px; }
+  .transition-note { font-size: 11px; color: var(--muted); padding: 4px 0 4px 16px; margin-left: 8px; border-left: 2px dashed #ddd; font-style: italic; }
+
+  .radar-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+  .radar-item { display: flex; align-items: baseline; gap: 10px; padding: 6px 0; border-bottom: 1px solid #f0ede8; font-size: 14px; }
+  .radar-item:last-child { border-bottom: none; }
+  .radar-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .dot-red { background: var(--danger); }
+  .dot-orange { background: var(--warning); }
+  .dot-yellow { background: #f1c40f; }
+  .dot-blue { background: var(--info); }
+  .dot-gray { background: #aaa; }
+  .radar-date { font-size: 11px; font-weight: 700; color: var(--muted); min-width: 78px; font-variant-numeric: tabular-nums; }
+  .radar-label { flex: 1; }
+  .radar-context { font-size: 12px; color: var(--muted); }
+
+  .inbox-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+  .inbox-item { display: flex; align-items: baseline; gap: 10px; padding: 7px 0; border-bottom: 1px solid #f0ede8; font-size: 14px; }
+  .inbox-item:last-child { border-bottom: none; }
+  .inbox-sender { font-weight: 600; flex-shrink: 0; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; }
+  .badge-act { background: #fdecea; color: var(--danger); border: 1px solid #f5c6c6; }
+  .badge-dollar { background: #fff3e0; color: #c77c3a; border: 1px solid #f5d9b0; }
+  .badge-fyi { background: #e8f4fd; color: var(--info); border: 1px solid #b8d8f0; }
+  .inbox-note { flex: 1; color: var(--muted); font-size: 13px; }
+  .inbox-muted { color: #bbb; font-size: 12px; padding: 4px 0; }
+
+  .improvement-card { border: 1px dashed #c8c0b5; border-radius: var(--radius); padding: 12px 16px; font-size: 13px; color: var(--muted); background: #fafaf8; }
+  .improvement-card strong { color: var(--text); }
+
+  .action-groups { display: flex; flex-direction: column; gap: 18px; }
+  .action-group-title { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .action-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+  .action-item { display: flex; align-items: center; gap: 10px; padding: 7px 6px; border-radius: 5px; border-bottom: 1px solid #f0ede8; }
+  .action-item:last-child { border-bottom: none; }
+  .action-item:hover { background: #f8f5f0; }
+  .action-item input[type="checkbox"] { flex-shrink: 0; width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); }
+  .al { flex: 1; font-size: 14px; cursor: pointer; user-select: none; }
+  .al.done { text-decoration: line-through; color: var(--done-text); }
+  .action-urgency { font-size: 11px; color: var(--danger); font-weight: 700; flex-shrink: 0; }
+  .action-urgency.warn { color: var(--warning); }
+  .action-urgency.info { color: var(--info); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📋 Daily Briefing</h1>
+  <div class="dateline">Tuesday, April 7, 2026 &nbsp;·&nbsp; New York City</div>
+</div>
+
+<div class="memory-bar">
+  <button id="mem-btn" onclick="connectGitHub()">Connect GitHub</button>
+  <span id="mem-status"></span>
+  <span id="mem-save-indicator">Saved ✓</span>
+  <a href="https://github.com/jon-goldman/briefings/blob/main/memory.json"
+     target="_blank" class="mem-gh-link">View memory ↗</a>
+</div>
+
+<div class="weather-bar">
+  ☀️ &nbsp;<strong>Sunny</strong> · High 49°F · N wind 7–9 mph, becoming SE in the afternoon · Clear spring day, bring a layer
+</div>
+
+<div class="section">
+  <div class="section-title">Today at a glance</div>
+  <div class="timeline">
+
+    <div class="tl-item free-window">
+      <div class="tl-time">Morning</div>
+      <div class="tl-content">
+        <div class="tl-title free">Free window — readings + deadlines</div>
+        <div class="tl-meta">Best time to finish any remaining Politics of the Archive reading before afternoon classes</div>
+      </div>
+    </div>
+
+    <div class="tl-item deadline-event">
+      <div class="tl-time">TODAY</div>
+      <div class="tl-content">
+        <div class="tl-title">Fine Cuts Invitational Film Show <span class="deadline-badge">DUE TODAY</span></div>
+        <div class="tl-meta">Animating Resistance (NMDS 5446) · submit to Melissa Friedling</div>
+      </div>
+    </div>
+
+    <div class="tl-item class-event">
+      <div class="tl-time">1:55 PM</div>
+      <div class="tl-content">
+        <div class="tl-title">Boundaries &amp; Belonging <span style="font-weight:400;font-size:13px;color:var(--muted)">→ 3:45 PM</span></div>
+        <div class="tl-meta">UTNS 6000 · 63 Fifth Ave, Room 304 · Week 10: Death and Belonging</div>
+        <div class="tl-readings"><strong>Readings:</strong> Gunaratnam, Balkan, Abderrezak, Melecki — <em>page counts TBA, check Canvas</em></div>
+      </div>
+    </div>
+
+    <div class="transition-note">~5 min walk · 63 Fifth Ave → 6 E. 16th St. · same neighborhood</div>
+
+    <div class="tl-item class-event">
+      <div class="tl-time">4:00 PM</div>
+      <div class="tl-content">
+        <div class="tl-title">Politics of the Archive <span style="font-weight:400;font-size:13px;color:var(--muted)">→ 5:50 PM</span></div>
+        <div class="tl-meta">GHIS 5201 · 6 E. 16th St., Room 1101 · Week 10</div>
+        <div class="tl-readings"><strong>Readings (~3.25 hrs total):</strong> Richardson (~2 hr) · Azoulay (~40 min) · Rubio &amp; Almendariz (~20 min) · Lee (~20 min)</div>
+      </div>
+    </div>
+
+    <div class="tl-item free-window">
+      <div class="tl-time">5:50 PM</div>
+      <div class="tl-content"><div class="tl-title free">Free evening</div></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">On the radar</div>
+  <ul class="radar-list">
+    <li class="radar-item"><div class="radar-dot dot-red"></div><div class="radar-date">TODAY · Apr 7</div><div class="radar-label"><strong>Fine Cuts Invitational Film Show</strong></div><div class="radar-context">Animating Resistance submission</div></li>
+    <li class="radar-item"><div class="radar-dot dot-orange"></div><div class="radar-date">⚠ Apr 6</div><div class="radar-label"><strong>Commentary (Politics of the Archive) — OVERDUE?</strong></div><div class="radar-context">Due yesterday by 6pm · confirm submitted</div></li>
+    <li class="radar-item"><div class="radar-dot dot-orange"></div><div class="radar-date">Wed · Apr 8</div><div class="radar-label"><strong>Design Studio Assignment 4</strong></div><div class="radar-context">PGTD 5101 · window closes Apr 8</div></li>
+    <li class="radar-item"><div class="radar-dot dot-yellow"></div><div class="radar-date">Mon · Apr 20</div><div class="radar-label"><strong>Commentary (Politics of the Archive)</strong></div><div class="radar-context">13 days · due by 6pm</div></li>
+    <li class="radar-item"><div class="radar-dot dot-yellow"></div><div class="radar-date">Thu · Apr 23</div><div class="radar-label">No Animating Resistance class</div><div class="radar-context">Makeup May 15</div></li>
+    <li class="radar-item"><div class="radar-dot dot-orange"></div><div class="radar-date">Sun · May 1</div><div class="radar-label"><strong>Heilbroner Fellowship deadline</strong></div><div class="radar-context">$3,000 · New School · app PDF in email</div></li>
+    <li class="radar-item"><div class="radar-dot dot-blue"></div><div class="radar-date">Sun · May 1</div><div class="radar-label">Chase CC statement due</div><div class="radar-context">$713.85 · min $40 · auto-pay on</div></li>
+    <li class="radar-item"><div class="radar-dot dot-orange"></div><div class="radar-date">Mon · May 4</div><div class="radar-label"><strong>Design Studio Final + Commentary #3</strong></div><div class="radar-context">Final at Wollman Hall · commentary by 6pm</div></li>
+    <li class="radar-item"><div class="radar-dot dot-orange"></div><div class="radar-date">Wed · May 7</div><div class="radar-label"><strong>Printmaking Final + Critique</strong></div><div class="radar-context">Also: Pets Best renews (policy 120337238)</div></li>
+    <li class="radar-item"><div class="radar-dot dot-red"></div><div class="radar-date">Wed · May 14</div><div class="radar-label"><strong>Animating Resistance Final Project</strong></div><div class="radar-context">NMDS 5446 · final presentations</div></li>
+    <li class="radar-item"><div class="radar-dot dot-red"></div><div class="radar-date">Thu · May 15</div><div class="radar-label"><strong>Politics of the Archive Second Essay (10pp)</strong></div><div class="radar-context">Also: Animating Resistance makeup class</div></li>
+    <li class="radar-item"><div class="radar-dot dot-gray"></div><div class="radar-date">Thu · May 21</div><div class="radar-label">Boundaries &amp; Belonging Final</div><div class="radar-context">UTNS 6000 · by 11:59pm</div></li>
+  </ul>
+</div>
+
+<div class="section">
+  <div class="section-title">Inbox</div>
+  <ul class="inbox-list">
+    <li class="inbox-item">
+      <span class="inbox-sender">Jon → self (New School)</span>
+      <span class="badge badge-act">Act</span>
+      <span class="inbox-note">Heilbroner Fellowship — $3,000 for 2026–27, deadline May 1; PDF attached in forwarded email.</span>
+    </li>
+    <li class="inbox-item">
+      <span class="inbox-sender">Chase</span>
+      <span class="badge badge-dollar">$</span>
+      <span class="inbox-note">Statement ready — $713.85 on card ending 5327, due May 1, auto-pay enabled.</span>
+    </li>
+    <li class="inbox-item">
+      <span class="inbox-sender">Pets Best</span>
+      <span class="badge badge-fyi">FYI</span>
+      <span class="inbox-note">Beau's insurance auto-renews May 7 — no action required.</span>
+    </li>
+    <li class="inbox-item" style="border-bottom:none;">
+      <span class="inbox-note inbox-muted">📬 Social Enterprise Jobs listserv (10+ msgs): TAN Africa, KickStart, Roberts Impact Fund, Outlier Projects, Right Turn to Health, Educating Beyond Borders, Greater NY — scan or archive.</span>
+    </li>
+  </ul>
+</div>
+
+<div class="section">
+  <div class="section-title">Improvement idea</div>
+  <div class="improvement-card">
+    <strong>Auto-filter the Social Enterprise Jobs listserv.</strong> The inbox is consistently dominated by unread messages from <code>social-enterprise-jobs@googlegroups.com</code>. A Gmail label filter keyed to this sender — surfacing only posts matching a saved keyword list — would keep the inbox section clean and make actual action items much easier to spot.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Action items</div>
+  <div class="action-groups">
+
+    <div>
+      <div class="action-group-title">Today</div>
+      <ul class="action-list">
+        <li class="action-item">
+          <input type="checkbox" data-id="fine-cuts-submission" onchange="toggle(this)">
+          <label class="al" onclick="this.previousElementSibling.click()">Fine Cuts Invitational Film Show — submit today</label>
+          <span class="action-urgency">TODAY</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="commentary-apr6" onchange="toggle(this)">
+          <label class="al" onclick="this.previousElementSibling.click()">Commentary (Politics of the Archive) — confirm submitted (due Apr 6)</label>
+          <span class="action-urgency">⚠ OVERDUE?</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="bb-canvas-readings" onchange="toggle(this)">
+          <label class="al" onclick="this.previousElementSibling.click()">Check B&amp;B Week 10 readings on Canvas (Gunaratnam et al. — pages TBA)</label>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="action-group-title">By Wednesday Apr 8</div>
+      <ul class="action-list">
+        <li class="action-item">
+          <input type="checkbox" data-id="design-studio-a4" onchange="toggle(this)">
+          <label class="al" onclick="this.previousElementSibling.click()">Design Studio Assignment 4 (PGTD 5101) — due Apr 6–8</label>
+          <span class="action-urgency warn">2 days</span>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="action-group-title">By Mon Apr 20</div>
+      <ul class="action-list">
+        <li class="action-item">
+          <input type="checkbox" data-id="commentary-apr20" onchange="toggle(this)">
+          <label class="al" onclick="this.previousElementSibling.click()">Draft Commentary #2 (Politics of the Archive) — due Apr 20 by 6pm</label>
+          <span class="action-urgency info">13 days</span>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="action-group-title">By May 1</div>
+      <ul class="action-list">
+        <li class="action-item">
+          <input type="checkbox" data-id="heilbroner-fellowship" onchange="toggle(this)">
+          <label class="al" onclick="this.previousElementSibling.click()">Apply — Heilbroner Fellowship ($3,000, New School) · deadline May 1</label>
+          <span class="action-urgency info">24 days</span>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="action-group-title">Check + Errand</div>
+      <ul class="action-list">
+        <li class="action-item"><input type="checkbox" data-id="concert-briefing" onchange="toggle(this)"><label class="al" onclick="this.previousElementSibling.click()">Create concert briefing feature (shows coming to NYC, easy yes/no)</label></li>
+        <li class="action-item"><input type="checkbox" data-id="add-school-calendar" onchange="toggle(this)"><label class="al" onclick="this.previousElementSibling.click()">Add school calendar to daily briefing</label></li>
+        <li class="action-item"><input type="checkbox" data-id="clinton-hill-coop" onchange="toggle(this)"><label class="al" onclick="this.previousElementSibling.click()">Look into Clinton Hill / Park Slope co-op</label></li>
+        <li class="action-item"><input type="checkbox" data-id="southwest-credits" onchange="toggle(this)"><label class="al" onclick="this.previousElementSibling.click()">Southwest cancellation money / credits</label></li>
+        <li class="action-item"><input type="checkbox" data-id="analogy-note" onchange="toggle(this)"><label class="al" onclick="this.previousElementSibling.click()">Write up seated/standing analogy note</label></li>
+        <li class="action-item"><input type="checkbox" data-id="fix-typewriter" onchange="toggle(this)"><label class="al" onclick="this.previousElementSibling.click()">Fix typewriter</label></li>
+        <li class="action-item"><input type="checkbox" data-id="fix-whisker" onchange="toggle(this)"><label class="al" onclick="this.previousElementSibling.click()">Fix whisker connection</label></li>
+        <li class="action-item"><input type="checkbox" data-id="email-jamer" onchange="toggle(this)"><label class="al" onclick="this.previousElementSibling.click()">Email Jamer</label></li>
+        <li class="action-item"><input type="checkbox" data-id="gold-chain" onchange="toggle(this)"><label class="al" onclick="this.previousElementSibling.click()">Thin gold chain for Jewish star</label></li>
+        <li class="action-item"><input type="checkbox" data-id="united-art-editions" onchange="toggle(this)"><label class="al" onclick="this.previousElementSibling.click()">United Limited Art Editions 1957</label></li>
+        <li class="action-item"><input type="checkbox" data-id="wardrobe-inventory" onchange="toggle(this)"><label class="al" onclick="this.previousElementSibling.click()">Update wardrobe inventory</label></li>
+        <li class="action-item"><input type="checkbox" data-id="car-registration" onchange="toggle(this)"><label class="al" onclick="this.previousElementSibling.click()">Registration in car</label></li>
+        <li class="action-item"><input type="checkbox" data-id="center-book-arts" onchange="toggle(this)"><label class="al" onclick="this.previousElementSibling.click()">Go to Center for Book Arts</label></li>
+        <li class="action-item"><input type="checkbox" data-id="apple-receipt" onchange="toggle(this)"><label class="al" onclick="this.previousElementSibling.click()">Verify Apple receipt</label></li>
+        <li class="action-item"><input type="checkbox" data-id="anthropic-receipt" onchange="toggle(this)"><label class="al" onclick="this.previousElementSibling.click()">Verify Anthropic receipts</label></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="action-group-title">Done</div>
+      <ul class="action-list">
+        <li class="action-item"><input type="checkbox" data-id="zip-tie" checked onchange="toggle(this)"><label class="al done" onclick="this.previousElementSibling.click()">Zip tie thingy</label></li>
+        <li class="action-item"><input type="checkbox" data-id="tea-lights" checked onchange="toggle(this)"><label class="al done" onclick="this.previousElementSibling.click()">Get tea lights (regular + larger)</label></li>
+        <li class="action-item"><input type="checkbox" data-id="brother-label-tape" checked onchange="toggle(this)"><label class="al done" onclick="this.previousElementSibling.click()">Brother PT-2700 12mm label tape</label></li>
+        <li class="action-item"><input type="checkbox" data-id="job-search-briefing" checked onchange="toggle(this)"><label class="al done" onclick="this.previousElementSibling.click()">Create job search briefing</label></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const GH_REPO = 'jon-goldman/briefings';
+const GH_API = 'https://api.github.com';
+const MEMORY_FILE = 'memory.json';
+
+let ghToken = localStorage.getItem('gh_briefing_token') || '';
+let memorySha = null;
+let memory = {};
+let saveTimer = null;
+
+async function connectGitHub() {
+  const t = prompt(
+    'Paste your GitHub Personal Access Token (starts with github_pat_):\n\n' +
+    'This token has read/write access only to jon-goldman/briefings.\n' +
+    'Stored in this browser\'s localStorage — enter once per device.'
+  );
+  if (!t || !t.trim()) return;
+  localStorage.setItem('gh_briefing_token', t.trim());
+  ghToken = t.trim();
+  await loadMemory();
+}
+
+async function loadMemory() {
+  if (!ghToken) return;
+  setMemStatus('Connecting…');
+  try {
+    const r = await fetch(
+      `${GH_API}/repos/${GH_REPO}/contents/${MEMORY_FILE}`,
+      { headers: { 'Authorization': `Bearer ${ghToken}`, 'Accept': 'application/vnd.github+json' } }
+    );
+    if (!r.ok) throw new Error(`GitHub API ${r.status} — check token`);
+    const d = await r.json();
+    memorySha = d.sha;
+    const raw = atob(d.content.replace(/\s/g, ''));
+    try { memory = JSON.parse(raw).completed || {}; } catch(_) {}
+    applyMemory();
+    const btn = document.getElementById('mem-btn');
+    btn.textContent = '✓ GitHub synced';
+    btn.classList.add('connected');
+    btn.onclick = null;
+    setMemStatus('Memory loaded ✓', 2000);
+  } catch(e) {
+    setMemStatus(`⚠ ${e.message}`);
+    console.error('GitHub memory:', e);
+  }
+}
+
+function setMemStatus(msg, clearAfter) {
+  const el = document.getElementById('mem-status');
+  if (el) {
+    el.textContent = msg;
+    if (clearAfter) setTimeout(() => { el.textContent = ''; }, clearAfter);
+  }
+}
+
+function applyMemory() {
+  document.querySelectorAll('input[type="checkbox"][data-id]').forEach(cb => {
+    if (memory[cb.dataset.id] && !cb.checked) {
+      cb.checked = true;
+      cb.parentElement.querySelector('.al')?.classList.add('done');
+    }
+  });
+}
+
+function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(persistMemory, 500); }
+
+async function persistMemory() {
+  if (!ghToken || !memorySha) return;
+  const payload = JSON.stringify({ completed: memory, updatedAt: new Date().toISOString() }, null, 2);
+  try {
+    const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${MEMORY_FILE}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${ghToken}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: `Update briefing memory ${new Date().toISOString().split('T')[0]}`,
+        content: btoa(unescape(encodeURIComponent(payload))),
+        sha: memorySha
+      })
+    });
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    memorySha = d.content.sha;
+    const el = document.getElementById('mem-save-indicator');
+    el.classList.add('visible');
+    setTimeout(() => el.classList.remove('visible'), 1500);
+  } catch(e) { console.error('GitHub save error:', e); }
+}
+
+function toggle(cb) {
+  cb.parentElement.querySelector('.al')?.classList.toggle('done', cb.checked);
+  const id = cb.dataset.id;
+  if (!id) return;
+  if (cb.checked) memory[id] = new Date().toISOString().split('T')[0];
+  else delete memory[id];
+  scheduleSave();
+}
+
+if (ghToken) loadMemory();
+</script>
+
+</body>
+</html>
