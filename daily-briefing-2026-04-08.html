@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Briefing — April 8, 2026</title>
+  <style>
+    :root {
+      --bg: #f9f8f6;
+      --card: #ffffff;
+      --border: #e8e6e1;
+      --text: #1a1a18;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --red: #dc2626;
+      --orange: #d97706;
+      --green: #16a34a;
+      --yellow: #ca8a04;
+      --blue: #2563eb;
+      --purple: #7c3aed;
+      --teal: #0891b2;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+    h2 {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--border);
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+    }
+    section { margin-bottom: 6px; }
+
+    /* Header */
+    .header { margin-bottom: 14px; }
+    .header h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; color: #111; }
+    .header-sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
+
+    /* Memory bar */
+    .memory-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      flex-wrap: wrap;
+    }
+    #mem-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 4px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+    #mem-btn.connected { background: var(--green); cursor: default; }
+    #mem-status { color: var(--muted); font-size: 12px; }
+    #mem-save-indicator {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    #mem-save-indicator.visible { opacity: 1; }
+    .mem-gh-link { color: var(--accent); text-decoration: none; margin-left: auto; font-size: 12px; }
+    .mem-gh-link:hover { text-decoration: underline; }
+
+    /* Weather bar */
+    .weather-bar {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 8px;
+      padding: 9px 16px;
+      font-size: 13px;
+      margin-bottom: 14px;
+      color: #0c4a6e;
+      font-weight: 500;
+    }
+
+    /* Timeline */
+    .timeline { display: flex; flex-direction: column; }
+    .tl-item {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 0 14px;
+      position: relative;
+      min-height: 44px;
+    }
+    .tl-time {
+      text-align: right;
+      color: var(--muted);
+      font-size: 12px;
+      padding-top: 4px;
+      white-space: nowrap;
+    }
+    .tl-body {
+      padding: 2px 0 14px 14px;
+      border-left: 2px solid var(--border);
+      position: relative;
+    }
+    .tl-body::before {
+      content: '';
+      width: 9px;
+      height: 9px;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      position: absolute;
+      left: -6px;
+      top: 5px;
+    }
+    .tl-body.event::before { border-color: var(--accent); background: var(--accent); }
+    .tl-body.social::before { border-color: var(--purple); background: var(--purple); }
+    .tl-body.gap { opacity: 0.6; }
+    .tl-body.gap::before { background: var(--border); }
+    .tl-title { font-weight: 600; font-size: 14px; margin-bottom: 1px; }
+    .tl-meta { color: var(--muted); font-size: 12px; line-height: 1.4; }
+    .tl-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-top: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .tl-warn { background: #fef3c7; color: #92400e; }
+    .tl-free { color: var(--muted); font-style: italic; font-size: 13px; }
+
+    /* On the radar */
+    .radar-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+    .radar-item { display: flex; align-items: flex-start; gap: 9px; font-size: 13px; line-height: 1.4; }
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .dot-red { background: var(--red); }
+    .dot-orange { background: var(--orange); }
+    .dot-yellow { background: var(--yellow); }
+    .dot-blue { background: var(--blue); }
+    .dot-green { background: var(--green); }
+    .dot-teal { background: var(--teal); }
+    .radar-date {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+      min-width: 62px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .radar-text strong { font-weight: 600; }
+
+    /* Inbox */
+    .error-notice {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 7px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #9a3412;
+      line-height: 1.5;
+    }
+
+    /* Improvement idea */
+    .idea-card {
+      border: 1px dashed #d1d5db;
+      border-radius: 9px;
+      padding: 13px 16px;
+      background: #fafaf8;
+      margin-bottom: 14px;
+    }
+    .idea-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+    .idea-text { font-size: 13px; color: #374151; line-height: 1.55; }
+
+    /* Action items */
+    .action-group { margin-bottom: 18px; }
+    .action-group-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      margin-bottom: 7px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+    }
+    .action-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .action-item { display: flex; align-items: flex-start; gap: 9px; }
+    .action-item input[type="checkbox"] {
+      margin-top: 2px;
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      cursor: pointer;
+      accent-color: var(--accent);
+      border-radius: 3px;
+    }
+    .al { font-size: 13px; cursor: pointer; line-height: 1.45; }
+    .al.done { text-decoration: line-through; color: var(--muted); }
+    .al a { color: var(--accent); text-decoration: none; }
+    .al a:hover { text-decoration: underline; }
+    .al-sub { font-size: 11px; color: var(--muted); display: block; margin-top: 1px; }
+    .tag-today {
+      display: inline-block;
+      background: #fef2f2;
+      color: var(--red);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-left: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .tag-soon {
+      display: inline-block;
+      background: #fff7ed;
+      color: var(--orange);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-left: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    @media (max-width: 500px) {
+      .tl-item { grid-template-columns: 58px 1fr; }
+      .tl-time { font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Daily Briefing</h1>
+  <div class="header-sub">Wednesday, April 8, 2026</div>
+</div>
+
+<!-- Memory Bar -->
+<div class="memory-bar">
+  <button id="mem-btn" onclick="connectGitHub()">Connect GitHub</button>
+  <span id="mem-status"></span>
+  <span id="mem-save-indicator">Saved ✓</span>
+  <a href="https://github.com/jon-goldman/briefings/blob/main/memory.json" target="_blank" class="mem-gh-link">View memory ↗</a>
+</div>
+
+<!-- Section 1: Weather -->
+<div class="weather-bar">
+  🌤 NYC · Wednesday · High 50°F / Low 35°F · Cool and crisp — jacket required, especially morning and evening
+</div>
+
+<!-- Section 2: Today at a glance -->
+<section>
+  <h2>Today at a glance</h2>
+  <div class="card">
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-time">Morning</div>
+        <div class="tl-body gap">
+          <div class="tl-free">Open — good window for Assignment 4 final push or errands</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">12:10 pm</div>
+        <div class="tl-body event">
+          <div class="tl-title">Design Studio — PGTD 5101</div>
+          <div class="tl-meta">Until 2:50 pm &nbsp;·&nbsp; 6 East 16th Ave, TD Studio &nbsp;·&nbsp; Celis &amp; Raad</div>
+          <span class="tl-badge tl-warn">⚠ Assignment 4 — last day (Apr 6–8 window)</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">2:50 pm</div>
+        <div class="tl-body gap">
+          <div class="tl-free">~4 hr 10 min free window</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">7:00 pm</div>
+        <div class="tl-body social">
+          <div class="tl-title">Board Game Night</div>
+          <div class="tl-meta">Until 9:00 pm</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: On the radar -->
+<section>
+  <h2>On the radar</h2>
+  <div class="card">
+    <ul class="radar-list">
+
+      <li class="radar-item">
+        <div class="dot dot-red"></div>
+        <span class="radar-date">TODAY</span>
+        <span class="radar-text"><strong>Design Studio A4</strong> — last day of submission window</span>
+      </li>
+
+      <li class="radar-item">
+        <div class="dot dot-orange"></div>
+        <span class="radar-date">Thu Apr 9</span>
+        <span class="radar-text"><strong>Animating Resistance</strong> — 7:00–9:40 pm · 6 E 16th St, Room 611 · Week 11, no assigned readings</span>
+      </li>
+
+      <li class="radar-item">
+        <div class="dot dot-teal"></div>
+        <span class="radar-date">Apr 9–12</span>
+        <span class="radar-text"><strong>Brooklyn Fine Art Print Fair</strong> — Powerhouse Arts, 322 Third Ave, Brooklyn · all day each day</span>
+      </li>
+
+      <li class="radar-item">
+        <div class="dot dot-blue"></div>
+        <span class="radar-date">Fri Apr 10</span>
+        <span class="radar-text"><strong>Talk Time</strong> — 11:25 am–12:15 pm · 353 Lexington Ave, Floor 3 · buzz Office #1</span>
+      </li>
+
+      <li class="radar-item">
+        <div class="dot dot-blue"></div>
+        <span class="radar-date">Fri Apr 10</span>
+        <span class="radar-text"><strong>Mapping for Equity</strong> (BetaNYC) — 3:00–5:00 pm · Mahoney Park · field mapping event</span>
+      </li>
+
+      <li class="radar-item">
+        <div class="dot dot-yellow"></div>
+        <span class="radar-date">Tue Apr 14</span>
+        <span class="radar-text"><strong>B&amp;B readings</strong> (Week 11 · Invasive, Native, Contagious) — Chircop, Efstathiou, Ticktin, Rogovoy — pages TBA, check Canvas</span>
+      </li>
+
+      <li class="radar-item">
+        <div class="dot dot-yellow"></div>
+        <span class="radar-date">Tue Apr 14</span>
+        <span class="radar-text"><strong>Politics of Archive readings</strong> (Week 11) — Undocumented Migration Project site (~15 min) · Aviles (~6 min) · Helton et al. (~1 hr) · Giordano (TBA)</span>
+      </li>
+
+      <li class="radar-item">
+        <div class="dot dot-red"></div>
+        <span class="radar-date">Mon Apr 20</span>
+        <span class="radar-text"><strong>Commentary due</strong> — Politics of the Archive · by 6 pm · 12 days away</span>
+      </li>
+
+      <li class="radar-item">
+        <div class="dot dot-orange"></div>
+        <span class="radar-date">May 1</span>
+        <span class="radar-text"><strong>Heilbroner Fellowship</strong> — application deadline</span>
+      </li>
+
+      <li class="radar-item">
+        <div class="dot dot-yellow"></div>
+        <span class="radar-date">May 7</span>
+        <span class="radar-text"><strong>Printmaking</strong> — final project + critique</span>
+      </li>
+
+      <li class="radar-item">
+        <div class="dot dot-red"></div>
+        <span class="radar-date">May 14</span>
+        <span class="radar-text"><strong>Animating Resistance final project</strong> — no class Apr 23 (makeup May 15)</span>
+      </li>
+
+    </ul>
+  </div>
+</section>
+
+<!-- Section 4: Inbox -->
+<section>
+  <h2>Inbox</h2>
+  <div class="card" style="padding: 14px 18px;">
+    <div class="error-notice">
+      ⚠ <strong>Gmail unavailable.</strong> The Gmail integration was recently upgraded and could not be reached in this automated run — tool definitions are stale. Check Gmail manually for new messages. Re-open Cowork or start a fresh session to restore the connection. Prior email-sourced action items are reflected in the checklist below where applicable.
+    </div>
+  </div>
+</section>
+
+<!-- Section 5: Improvement idea -->
+<div class="idea-card">
+  <div class="idea-label">💡 Tomorrow's improvement</div>
+  <div class="idea-text">The Gmail MCP tool failed today due to a backend upgrade — the tool definitions became stale mid-session. Consider adding a browser-based Gmail fallback: if the Gmail MCP returns an error, automatically use the Chrome browser tool to navigate to Gmail and scrape unread subject lines and senders. This would make the briefing resilient to integration outages without requiring a manual session restart.</div>
+</div>
+
+<!-- Section 6: Action items -->
+<section>
+  <h2>Action items</h2>
+  <div class="card">
+
+    <div class="action-group">
+      <div class="action-group-label">Today</div>
+      <ul class="action-list">
+        <li class="action-item">
+          <input type="checkbox" data-id="design-studio-a4" onclick="toggle(this)">
+          <span class="al">Design Studio Assignment 4 — submit today<span class="tag-today">due today</span>
+            <span class="al-sub">Last day of Apr 6–8 window · PGTD 5101</span>
+          </span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="bfapf-confirm" onclick="toggle(this)">
+          <span class="al">Confirm BFAPF print drop-off + form done<span class="tag-today">fair starts tomorrow</span>
+            <span class="al-sub">Brooklyn Fine Art Print Fair · Powerhouse Arts · Apr 9–12</span>
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="action-group">
+      <div class="action-group-label">By date</div>
+      <ul class="action-list">
+        <li class="action-item">
+          <input type="checkbox" data-id="commentary-apr20" onclick="toggle(this)">
+          <span class="al">Commentary due Apr 20<span class="tag-soon">12 days</span>
+            <span class="al-sub">Politics of the Archive · Mon by 6 pm</span>
+          </span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="heilbroner-fellowship" onclick="toggle(this)">
+          <span class="al">Heilbroner Fellowship application<span class="tag-soon">May 1</span></span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="commentary-may4" onclick="toggle(this)">
+          <span class="al">Commentary due May 4
+            <span class="al-sub">Politics of the Archive · Mon by 6 pm</span>
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="action-group">
+      <div class="action-group-label">Verify completed (past deadlines)</div>
+      <ul class="action-list">
+        <li class="action-item">
+          <input type="checkbox" data-id="commentary-apr6" onclick="toggle(this)">
+          <span class="al">Commentary Apr 6 — confirm submitted by Mon 6 pm</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="fine-cuts-submission" onclick="toggle(this)">
+          <span class="al">Fine Cuts Invitational Film Show — submission was due Apr 7, confirm done</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="animation-festival" onclick="toggle(this)">
+          <span class="al">Parsons Animation Festival — was due Apr 5 midnight, confirm submitted</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="prompt3-animating" onclick="toggle(this)">
+          <span class="al">Prompt 3 (Animating Resistance) — due Apr 2 before class, confirm done</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="midterm-bb" onclick="toggle(this)">
+          <span class="al">Midterm — Boundaries &amp; Belonging — was due Apr 4, confirm submitted</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="action-group">
+      <div class="action-group-label">Check + Errand</div>
+      <ul class="action-list">
+        <li class="action-item">
+          <input type="checkbox" data-id="dr-churchill-message" onclick="toggle(this)">
+          <span class="al">Read therapist secure message</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="iospa-billing" onclick="toggle(this)">
+          <span class="al">Handle Dr. Iospa billing document</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="southwest-credits" onclick="toggle(this)">
+          <span class="al">Southwest cancellation money / credits on Venture X</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="apple-receipt" onclick="toggle(this)">
+          <span class="al">Verify Apple receipt</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="anthropic-receipt" onclick="toggle(this)">
+          <span class="al">Verify Anthropic receipts</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="mlb-signin" onclick="toggle(this)">
+          <span class="al">Check MLB sign-in alert</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="car-keys" onclick="toggle(this)">
+          <span class="al">Get car keys from home</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="jvp-followup" onclick="toggle(this)">
+          <span class="al">JVP Crown Heights meeting follow-up</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="facebook-link" onclick="toggle(this)">
+          <span class="al">Process saved Facebook link</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="ikar-instagram" onclick="toggle(this)">
+          <span class="al">Process saved IKAR Instagram post</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="ezgi-letter" onclick="toggle(this)">
+          <span class="al">Write Ezgi typewriter letter</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="concert-briefing" onclick="toggle(this)">
+          <span class="al">Create concert briefing feature — shows I might like, easy yes/no
+            <span class="al-sub"><a href="https://www.notion.so/337f38f0e32780668ab2cbd3e3102abf" target="_blank">from Notion</a></span>
+          </span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="clinton-hill-coop" onclick="toggle(this)">
+          <span class="al">Look into Clinton Hill / Park Slope co-op</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="add-school-calendar" onclick="toggle(this)">
+          <span class="al">Add school calendar to daily briefing</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="gold-chain" onclick="toggle(this)">
+          <span class="al">Thin gold chain for Jewish star</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="analogy-note" onclick="toggle(this)">
+          <span class="al">Write up seated/standing analogy note</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="fix-typewriter" onclick="toggle(this)">
+          <span class="al">Fix typewriter</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="fix-whisker" onclick="toggle(this)">
+          <span class="al">Fix whisker connection</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="email-jamer" onclick="toggle(this)">
+          <span class="al">Email Jamer</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="united-art-editions" onclick="toggle(this)">
+          <span class="al">United Limited Art Editions 1957</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="wardrobe-inventory" onclick="toggle(this)">
+          <span class="al">Update wardrobe inventory</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="car-registration" onclick="toggle(this)">
+          <span class="al">Registration in car</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="center-book-arts" onclick="toggle(this)">
+          <span class="al">Go to Center for Book Arts</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="action-group">
+      <div class="action-group-label">Done</div>
+      <ul class="action-list">
+        <li class="action-item">
+          <input type="checkbox" data-id="prompt4-animating" checked onclick="toggle(this)">
+          <span class="al done">Prompt 4 submitted ✓</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="rhetoric-image" checked onclick="toggle(this)">
+          <span class="al done">Rhetoric of the Image — read ✓</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="zip-tie" checked onclick="toggle(this)">
+          <span class="al done">Zip tie thingy ✓</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="tea-lights" checked onclick="toggle(this)">
+          <span class="al done">Get tea lights (regular + larger) ✓</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="brother-label-tape" checked onclick="toggle(this)">
+          <span class="al done">Brother PT-2700 12mm label tape ✓</span>
+        </li>
+        <li class="action-item">
+          <input type="checkbox" data-id="job-search-briefing" checked onclick="toggle(this)">
+          <span class="al done">Create job search briefing ✓</span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<script>
+const GH_REPO = 'jon-goldman/briefings';
+const GH_API = 'https://api.github.com';
+const MEMORY_FILE = 'memory.json';
+
+let ghToken = localStorage.getItem('gh_briefing_token') || '';
+let memorySha = null;
+let memory = {};
+let saveTimer = null;
+
+async function connectGitHub() {
+  const t = prompt(
+    'Paste your GitHub Personal Access Token (starts with github_pat_):\n\n' +
+    'This token has read/write access only to jon-goldman/briefings.\n' +
+    "Stored in this browser's localStorage — enter once per device."
+  );
+  if (!t || !t.trim()) return;
+  localStorage.setItem('gh_briefing_token', t.trim());
+  ghToken = t.trim();
+  await loadMemory();
+}
+
+async function loadMemory() {
+  if (!ghToken) return;
+  setMemStatus('Connecting…');
+  try {
+    const r = await fetch(
+      `${GH_API}/repos/${GH_REPO}/contents/${MEMORY_FILE}`,
+      { headers: { 'Authorization': `Bearer ${ghToken}`, 'Accept': 'application/vnd.github+json' } }
+    );
+    if (!r.ok) throw new Error(`GitHub API ${r.status} — check token`);
+    const d = await r.json();
+    memorySha = d.sha;
+    const raw = atob(d.content.replace(/\s/g, ''));
+    try { memory = JSON.parse(raw).completed || {}; } catch(_) {}
+    applyMemory();
+    const btn = document.getElementById('mem-btn');
+    btn.textContent = '✓ GitHub synced';
+    btn.classList.add('connected');
+    btn.onclick = null;
+    setMemStatus('Memory loaded ✓', 2000);
+  } catch(e) {
+    setMemStatus(`⚠ ${e.message}`);
+    console.error('GitHub memory:', e);
+  }
+}
+
+function setMemStatus(msg, clearAfter) {
+  const el = document.getElementById('mem-status');
+  if (el) {
+    el.textContent = msg;
+    if (clearAfter) setTimeout(() => { el.textContent = ''; }, clearAfter);
+  }
+}
+
+function applyMemory() {
+  document.querySelectorAll('input[type="checkbox"][data-id]').forEach(cb => {
+    if (memory[cb.dataset.id] && !cb.checked) {
+      cb.checked = true;
+      cb.parentElement.querySelector('.al')?.classList.add('done');
+    }
+  });
+}
+
+function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(persistMemory, 500); }
+
+async function persistMemory() {
+  if (!ghToken || !memorySha) return;
+  const payload = JSON.stringify({ completed: memory, updatedAt: new Date().toISOString() }, null, 2);
+  try {
+    const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${MEMORY_FILE}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${ghToken}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: `Update briefing memory ${new Date().toISOString().split('T')[0]}`,
+        content: btoa(unescape(encodeURIComponent(payload))),
+        sha: memorySha
+      })
+    });
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    memorySha = d.content.sha;
+    const el = document.getElementById('mem-save-indicator');
+    el.classList.add('visible');
+    setTimeout(() => el.classList.remove('visible'), 1500);
+  } catch(e) { console.error('GitHub save error:', e); }
+}
+
+function toggle(cb) {
+  cb.parentElement.querySelector('.al')?.classList.toggle('done', cb.checked);
+  const id = cb.dataset.id;
+  if (!id) return;
+  if (cb.checked) memory[id] = new Date().toISOString().split('T')[0];
+  else delete memory[id];
+  scheduleSave();
+}
+
+if (ghToken) loadMemory();
+</script>
+
+</body>
+</html>
