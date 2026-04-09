@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Briefing — Thursday, April 9, 2026</title>
+  <style>
+    :root {
+      --bg: #f9f8f6;
+      --card: #ffffff;
+      --border: #e5e3df;
+      --text: #1a1a1a;
+      --muted: #6b6b6b;
+      --accent: #2563eb;
+      --red: #dc2626;
+      --amber: #d97706;
+      --green: #16a34a;
+      --purple: #7c3aed;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+    }
+    h1 { font-size: 22px; font-weight: 700; }
+    h2 {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.07em; color: var(--muted); margin: 22px 0 8px;
+    }
+    .header { margin-bottom: 14px; }
+    .header .date { color: var(--muted); font-size: 13px; margin-top: 2px; }
+
+    /* Memory bar */
+    .memory-bar {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      background: #f0f4ff; border: 1px solid #c7d5f7;
+      border-radius: 8px; padding: 8px 12px; margin-bottom: 12px;
+      font-size: 13px;
+    }
+    #mem-btn {
+      background: var(--accent); color: white; border: none;
+      border-radius: 5px; padding: 4px 10px; font-size: 12px;
+      cursor: pointer; white-space: nowrap;
+    }
+    #mem-btn.connected { background: var(--green); }
+    #mem-status { color: var(--muted); font-size: 12px; }
+    #mem-save-indicator { color: var(--green); font-size: 12px; opacity: 0; transition: opacity 0.3s; }
+    #mem-save-indicator.visible { opacity: 1; }
+    .mem-gh-link { color: var(--accent); text-decoration: none; font-size: 12px; margin-left: auto; }
+
+    /* Weather */
+    .weather-bar {
+      background: #ebf5fb; border: 1px solid #b3d8ee;
+      border-radius: 8px; padding: 9px 14px; margin-bottom: 18px;
+      font-size: 13px; color: #1a365d;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 16px; margin-bottom: 10px;
+    }
+
+    /* Timeline */
+    .timeline { list-style: none; }
+    .timeline li {
+      display: flex; gap: 12px; padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .timeline li:last-child { border-bottom: none; }
+    .tl-time {
+      width: 88px; min-width: 88px; font-size: 12px;
+      color: var(--muted); padding-top: 1px; font-variant-numeric: tabular-nums;
+    }
+    .tl-content { flex: 1; }
+    .tl-title { font-weight: 500; font-size: 14px; }
+    .tl-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .tl-reading { font-size: 12px; color: var(--purple); margin-top: 3px; }
+    .tl-free-row { display: flex; gap: 12px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+    .tl-free-row:last-child { border-bottom: none; }
+    .tl-free-label { color: #bbb; font-style: italic; font-size: 12px; flex: 1; }
+
+    /* Focus blocks */
+    .focus-header {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.07em; color: var(--muted);
+      margin: 14px 0 8px; padding-top: 12px; border-top: 1px solid var(--border);
+    }
+    .focus-block { display: flex; gap: 10px; padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .focus-block:last-child { border-bottom: none; }
+    .fb-time { min-width: 126px; color: var(--accent); font-weight: 500; font-size: 12px; padding-top: 1px; }
+
+    /* Urgency dots */
+    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; flex-shrink: 0; position: relative; top: 1px; }
+    .dot-red { background: var(--red); }
+    .dot-amber { background: var(--amber); }
+    .dot-blue { background: var(--accent); }
+    .dot-green { background: var(--green); }
+    .dot-purple { background: var(--purple); }
+    .dot-gray { background: #ccc; }
+
+    /* Radar */
+    .radar-item {
+      display: flex; align-items: baseline; gap: 8px;
+      padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+    }
+    .radar-item:last-child { border-bottom: none; }
+    .radar-date { min-width: 70px; color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .radar-label { flex: 1; }
+    .radar-ctx { color: var(--muted); font-size: 12px; }
+
+    /* Inbox */
+    .inbox-group-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--muted); margin: 10px 0 6px;
+    }
+    .inbox-group-label:first-child { margin-top: 0; }
+    .inbox-item {
+      display: flex; align-items: flex-start; gap: 8px;
+      padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+    }
+    .inbox-item:last-child { border-bottom: none; }
+    .badge {
+      font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 3px;
+      white-space: nowrap; margin-top: 1px;
+    }
+    .badge-act { background: #fee2e2; color: #991b1b; }
+    .badge-fyi { background: #f0fdf4; color: #166534; }
+    .badge-sec { background: #ede9fe; color: #5b21b6; }
+    .inbox-from { font-weight: 600; min-width: 100px; }
+    .inbox-note { color: #444; flex: 1; }
+    .inbox-muted { font-size: 12px; color: #bbb; padding: 5px 0; border-top: 1px solid var(--border); margin-top: 2px; }
+
+    /* Improvement */
+    .improvement {
+      border: 1px dashed var(--border); border-radius: 8px;
+      padding: 12px 14px; font-size: 13px; color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .improvement strong { color: var(--text); }
+
+    /* Action items */
+    .action-group-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.07em; color: var(--muted); margin: 14px 0 4px;
+    }
+    .action-group-label:first-child { margin-top: 0; }
+    .action-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 2px; border-bottom: 1px solid var(--border); font-size: 13px;
+    }
+    .action-item:last-child { border-bottom: none; }
+    .action-item input[type="checkbox"] { cursor: pointer; accent-color: var(--accent); flex-shrink: 0; }
+    .al { flex: 1; }
+    .al.done { text-decoration: line-through; color: var(--muted); }
+    .snooze-btn {
+      background: none; border: none; cursor: pointer;
+      color: #ccc; font-size: 13px; padding: 0 2px; line-height: 1;
+    }
+    .snooze-btn:hover { color: var(--amber); }
+    details summary { cursor: pointer; font-size: 12px; color: var(--muted); padding: 6px 0; user-select: none; }
+    .snoozed-item { font-size: 12px; padding: 4px 0; color: var(--muted); display: flex; gap: 8px; align-items: center; list-style: none; }
+    .snooze-date { font-size: 11px; color: #aaa; }
+    .snoozed-item button { font-size: 11px; background: none; border: 1px solid var(--border); border-radius: 3px; cursor: pointer; padding: 1px 5px; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📋 Daily Briefing</h1>
+  <div class="date">Thursday, April 9, 2026</div>
+</div>
+
+<!-- Memory bar -->
+<div class="memory-bar">
+  <button id="mem-btn" onclick="connectGitHub()">Connect GitHub</button>
+  <span id="mem-status"></span>
+  <span id="mem-save-indicator">Saved ✓</span>
+  <a href="https://github.com/jon-goldman/briefings/blob/main/memory.json" target="_blank" class="mem-gh-link">View memory ↗</a>
+</div>
+
+<!-- Weather -->
+<div class="weather-bar">
+  ☁️ <strong>NYC Today:</strong> Intervals of clouds and sunshine · High 54°F / Low 41°F · SE winds 5–10 mph · Mostly dry (5% precip)
+</div>
+
+<!-- Section 2: Today at a Glance -->
+<h2>Today at a Glance</h2>
+<div class="card">
+  <ul class="timeline">
+    <li>
+      <span class="tl-time">All day</span>
+      <span class="tl-content">
+        <div class="tl-title">🖼 Brooklyn Fine Art Print Fair</div>
+        <div class="tl-sub">Powerhouse Arts, 322 Third Ave, Brooklyn · through Mon Apr 13</div>
+      </span>
+    </li>
+    <li class="tl-free-row" style="border-bottom:1px solid var(--border);">
+      <span class="tl-time" style="color:#ccc;font-size:12px;">Morning</span>
+      <span class="tl-free-label">Free — see focus blocks below</span>
+    </li>
+    <li>
+      <span class="tl-time">7:00–9:40pm</span>
+      <span class="tl-content">
+        <div class="tl-title">🎬 Animating Resistance</div>
+        <div class="tl-sub">6 East 16th St., Room 611 · Melissa Friedling</div>
+        <div class="tl-reading">No reading due this week · Next week (Apr 16): Miner "Experiments in Hybrid Documentary…" pp. 6–20 (~45 min)</div>
+      </span>
+    </li>
+  </ul>
+
+  <div class="focus-header">Focus Blocks</div>
+  <div class="focus-block">
+    <span class="fb-time">10:00 – 11:30am</span>
+    <span><strong>Politics of Archive readings (due Tue Apr 14):</strong> Start with Helton et al. (~1 hr), then Undocumented Migration Project site (~15 min) + Aviles (~6 min) — hardest piece first</span>
+  </div>
+  <div class="focus-block">
+    <span class="fb-time">1:00 – 2:00pm</span>
+    <span><strong>Animating Resistance:</strong> Miner pp. 6–20 (~45 min) — knock it out now before next week stacks</span>
+  </div>
+  <div class="focus-block">
+    <span class="fb-time">3:00 – 4:30pm</span>
+    <span><strong>Commentary #2 brainstorm</strong> — due Mon Apr 20 (11 days). Review archive materials, draft an outline before the week fills up</span>
+  </div>
+</div>
+
+<!-- Section 3: On the Radar -->
+<h2>On the Radar</h2>
+<div class="card">
+  <div class="radar-item">
+    <span class="radar-date"><span class="dot dot-blue"></span>Fri Apr 10</span>
+    <span class="radar-label">Talk Time (therapy) · 11:25am–12:15pm</span>
+    <span class="radar-ctx">353 Lexington Ave, Fl 3</span>
+  </div>
+  <div class="radar-item">
+    <span class="radar-date"><span class="dot dot-blue"></span>Fri Apr 10</span>
+    <span class="radar-label">BetaNYC: Mapping for Equity · 3:00–5:00pm</span>
+    <span class="radar-ctx">Mahoney Park — you're registered ✓</span>
+  </div>
+  <div class="radar-item">
+    <span class="radar-date"><span class="dot dot-gray"></span>Mon Apr 13</span>
+    <span class="radar-label">BFAPF last day</span>
+    <span class="radar-ctx">Brooklyn Fine Art Print Fair closes</span>
+  </div>
+  <div class="radar-item">
+    <span class="radar-date"><span class="dot dot-amber"></span>Tue Apr 14</span>
+    <span class="radar-label">Boundaries &amp; Belonging — Week 11</span>
+    <span class="radar-ctx">Chircop, Efstathiou, Ticktin, Rogovoy — pages TBA</span>
+  </div>
+  <div class="radar-item">
+    <span class="radar-date"><span class="dot dot-amber"></span>Tue Apr 14</span>
+    <span class="radar-label">Politics of the Archive — Week 11</span>
+    <span class="radar-ctx">Undocumented Migration Project (~15 min) + Aviles (~6 min) + Helton (~1 hr) + Giordano (TBA)</span>
+  </div>
+  <div class="radar-item">
+    <span class="radar-date"><span class="dot dot-red"></span>Mon Apr 20</span>
+    <span class="radar-label"><strong>Commentary #2 due — 11 days</strong></span>
+    <span class="radar-ctx">Politics of the Archive · by 6pm to Stoler</span>
+  </div>
+  <div class="radar-item">
+    <span class="radar-date"><span class="dot dot-amber"></span>Apr 27–29</span>
+    <span class="radar-label">Design Studio Assignment 3 window</span>
+    <span class="radar-ctx">PGTD 5101 · Celis + Raad</span>
+  </div>
+  <div class="radar-item">
+    <span class="radar-date"><span class="dot dot-red"></span>May 1</span>
+    <span class="radar-label"><strong>Heilbroner Fellowship deadline</strong></span>
+    <span class="radar-ctx">New School · forwarded by Carlos Celis Mar 25 — start soon</span>
+  </div>
+  <div class="radar-item">
+    <span class="radar-date"><span class="dot dot-red"></span>May 4</span>
+    <span class="radar-label">Design Studio Final — Wollman Hall</span>
+    <span class="radar-ctx">Also: Commentary #3 due May 4</span>
+  </div>
+</div>
+
+<!-- Section 4: Inbox -->
+<h2>Inbox</h2>
+<div class="card">
+  <div class="inbox-group-label">New Today</div>
+  <div class="inbox-item">
+    <span class="badge badge-act">Act</span>
+    <span class="inbox-from">JVP Action</span>
+    <span class="inbox-note">Invite to canvass for pro-Palestine candidates this Sunday (4/12) — decide if joining</span>
+  </div>
+  <div class="inbox-item">
+    <span class="badge badge-fyi">FYI</span>
+    <span class="inbox-from">BetaNYC / Tito</span>
+    <span class="inbox-note">"See you tomorrow!" — Mapping for Equity confirmed for Fri 3–5pm @ Mahoney Park</span>
+  </div>
+  <div class="inbox-item">
+    <span class="badge badge-fyi">FYI</span>
+    <span class="inbox-from">eBay (×2)</span>
+    <span class="inbox-note">Victorian Trade Cards shipped — estimated delivery Apr 10–16</span>
+  </div>
+
+  <div class="inbox-group-label" style="margin-top:12px;">Lingering</div>
+  <div class="inbox-item">
+    <span class="badge badge-act">Act</span>
+    <span class="inbox-from">Celis / Heilbroner</span>
+    <span class="inbox-note">Fellowship application — deadline May 1. In inbox since Mar 25. Start application.</span>
+  </div>
+  <div class="inbox-item">
+    <span class="badge badge-fyi">FYI</span>
+    <span class="inbox-from">Ezgi (Notion)</span>
+    <span class="inbox-note">Shared "Border beings" (Kobelinsky) page — likely relevant to B&amp;B Week 11 readings</span>
+  </div>
+  <div class="inbox-item">
+    <span class="badge badge-sec">Sec</span>
+    <span class="inbox-from">GitHub</span>
+    <span class="inbox-note">Sudo email verification code (Apr 7) — expired, can archive</span>
+  </div>
+
+  <div class="inbox-muted">Newsletters skipped: Printmakers Guild NY (Apr 7), Redfin home report, LandSearch property alert</div>
+</div>
+
+<!-- Section 5: Improvement Idea -->
+<h2>Improvement Idea</h2>
+<div class="improvement">
+  <strong>Dynamic assignment tracking via Notion.</strong> Right now all Parsons assignments are hardcoded in the prompt — there's no way to know which have been started vs. outstanding. Adding a small Notion assignments checklist (or expanding the Running List) would let you tick things off in one place and have tomorrow's briefing auto-surface only what's genuinely open, rather than repeating every task every day.
+</div>
+
+<!-- Section 6: Action Items -->
+<h2>Action Items</h2>
+<div class="card">
+
+  <div class="action-group-label">Today</div>
+  <div class="action-item">
+    <input type="checkbox" data-id="dr-churchill-message" onchange="toggle(this)">
+    <span class="al">Read therapist secure message (Dr. Churchill)</span>
+    <button class="snooze-btn" onclick="snoozeItem('dr-churchill-message','Read therapist secure message')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="aunt-ronni-birthday" onchange="toggle(this)">
+    <span class="al">Wish Aunt Ronni happy birthday</span>
+    <button class="snooze-btn" onclick="snoozeItem('aunt-ronni-birthday','Wish Aunt Ronni happy birthday')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="facebook-link" onchange="toggle(this)">
+    <span class="al">Process saved Facebook link</span>
+    <button class="snooze-btn" onclick="snoozeItem('facebook-link','Process saved Facebook link')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="ikar-instagram" onchange="toggle(this)">
+    <span class="al">Process saved IKAR Instagram post</span>
+    <button class="snooze-btn" onclick="snoozeItem('ikar-instagram','Process saved IKAR Instagram post')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="jvp-followup" onchange="toggle(this)">
+    <span class="al">JVP Crown Heights meeting follow-up</span>
+    <button class="snooze-btn" onclick="snoozeItem('jvp-followup','JVP Crown Heights meeting follow-up')">⏸</button>
+  </div>
+
+  <div class="action-group-label">By Deadline</div>
+  <div class="action-item">
+    <input type="checkbox" data-id="rhetoric-image" onchange="toggle(this)">
+    <span class="al">Read: Rhetoric of the Image</span>
+    <button class="snooze-btn" onclick="snoozeItem('rhetoric-image','Rhetoric of the Image read')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="prompt4-animating" onchange="toggle(this)">
+    <span class="al">Submit Prompt 4 — Animating Resistance</span>
+    <button class="snooze-btn" onclick="snoozeItem('prompt4-animating','Prompt 4 Animating Resistance')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="commentary-apr20" onchange="toggle(this)">
+    <span class="al">Draft Commentary #2 — due <strong style="color:var(--amber)">Mon Apr 20 (11 days)</strong></span>
+    <button class="snooze-btn" onclick="snoozeItem('commentary-apr20','Commentary due Apr 20')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="heilbroner-fellowship" onchange="toggle(this)">
+    <span class="al">Apply — Heilbroner Fellowship <strong style="color:var(--amber)">(due May 1)</strong></span>
+    <button class="snooze-btn" onclick="snoozeItem('heilbroner-fellowship','Heilbroner Fellowship application')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="commentary-may4" onchange="toggle(this)">
+    <span class="al">Draft Commentary #3 — due May 4</span>
+    <button class="snooze-btn" onclick="snoozeItem('commentary-may4','Commentary due May 4')">⏸</button>
+  </div>
+
+  <div class="action-group-label">Check + Errand</div>
+  <div class="action-item">
+    <input type="checkbox" data-id="notion-running-list" onchange="toggle(this)">
+    <span class="al">Check Notion Running List → <a href="https://www.notion.so/337f38f0e32780668ab2cbd3e3102abf" target="_blank">open page</a></span>
+    <button class="snooze-btn" onclick="snoozeItem('notion-running-list','Check Notion Running List')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="southwest-credits" onchange="toggle(this)">
+    <span class="al">Southwest cancellation money / credits on Venture X</span>
+    <button class="snooze-btn" onclick="snoozeItem('southwest-credits','Southwest cancellation credits')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="car-keys" onchange="toggle(this)">
+    <span class="al">Get car keys from home</span>
+    <button class="snooze-btn" onclick="snoozeItem('car-keys','Get car keys from home')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="add-school-calendar" onchange="toggle(this)">
+    <span class="al">Add school calendar to daily briefing</span>
+    <button class="snooze-btn" onclick="snoozeItem('add-school-calendar','Add school calendar to daily briefing')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="job-search-briefing" onchange="toggle(this)">
+    <span class="al">Create job search briefing feature</span>
+    <button class="snooze-btn" onclick="snoozeItem('job-search-briefing','Create job search briefing')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="ezgi-letter" onchange="toggle(this)">
+    <span class="al">Write Ezgi typewriter letter</span>
+    <button class="snooze-btn" onclick="snoozeItem('ezgi-letter','Write Ezgi typewriter letter')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="email-jamer" onchange="toggle(this)">
+    <span class="al">Email Jamer</span>
+    <button class="snooze-btn" onclick="snoozeItem('email-jamer','Email Jamer')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="clinton-hill-coop" onchange="toggle(this)">
+    <span class="al">Look into Clinton Hill / Park Slope co-op</span>
+    <button class="snooze-btn" onclick="snoozeItem('clinton-hill-coop','Clinton Hill co-op')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="gold-chain" onchange="toggle(this)">
+    <span class="al">Thin gold chain for Jewish star</span>
+    <button class="snooze-btn" onclick="snoozeItem('gold-chain','Thin gold chain')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="analogy-note" onchange="toggle(this)">
+    <span class="al">Write up seated/standing analogy note</span>
+    <button class="snooze-btn" onclick="snoozeItem('analogy-note','Seated/standing analogy note')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="fix-typewriter" onchange="toggle(this)">
+    <span class="al">Fix typewriter</span>
+    <button class="snooze-btn" onclick="snoozeItem('fix-typewriter','Fix typewriter')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="fix-whisker" onchange="toggle(this)">
+    <span class="al">Fix whisker connection</span>
+    <button class="snooze-btn" onclick="snoozeItem('fix-whisker','Fix whisker connection')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="united-art-editions" onchange="toggle(this)">
+    <span class="al">United Limited Art Editions 1957</span>
+    <button class="snooze-btn" onclick="snoozeItem('united-art-editions','United Limited Art Editions 1957')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="wardrobe-inventory" onchange="toggle(this)">
+    <span class="al">Update wardrobe inventory</span>
+    <button class="snooze-btn" onclick="snoozeItem('wardrobe-inventory','Update wardrobe inventory')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="car-registration" onchange="toggle(this)">
+    <span class="al">Registration in car</span>
+    <button class="snooze-btn" onclick="snoozeItem('car-registration','Registration in car')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="center-book-arts" onchange="toggle(this)">
+    <span class="al">Go to Center for Book Arts</span>
+    <button class="snooze-btn" onclick="snoozeItem('center-book-arts','Center for Book Arts')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="tea-lights" onchange="toggle(this)">
+    <span class="al">Get tea lights (regular + larger)</span>
+    <button class="snooze-btn" onclick="snoozeItem('tea-lights','Get tea lights')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="brother-label-tape" onchange="toggle(this)">
+    <span class="al">Brother PT-2700 12mm label tape</span>
+    <button class="snooze-btn" onclick="snoozeItem('brother-label-tape','Brother label tape')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="zip-tie" onchange="toggle(this)">
+    <span class="al">Zip tie thingy</span>
+    <button class="snooze-btn" onclick="snoozeItem('zip-tie','Zip tie thingy')">⏸</button>
+  </div>
+
+  <!-- Snoozed (collapsed) -->
+  <div style="margin-top:12px;">
+    <details>
+      <summary>Snoozed (<em id="snooze-count">0</em>)</summary>
+      <ul id="snoozed-list" style="list-style:none;padding:4px 0;"></ul>
+    </details>
+  </div>
+
+  <!-- Done -->
+  <div class="action-group-label" style="margin-top:14px;">Done</div>
+  <div class="action-item">
+    <input type="checkbox" data-id="prompt3-animating" onchange="toggle(this)" checked>
+    <span class="al done">Complete Prompt 3 (Animating Resistance)</span>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="bfapf-confirm" onchange="toggle(this)" checked>
+    <span class="al done">Confirm BFAPF print drop-off + form done</span>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="iospa-billing" onchange="toggle(this)" checked>
+    <span class="al done">Handle Dr. Iospa billing document</span>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="midterm-bb" onchange="toggle(this)" checked>
+    <span class="al done">Write Midterm — Boundaries &amp; Belonging</span>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="mlb-signin" onchange="toggle(this)" checked>
+    <span class="al done">Check MLB sign-in alert</span>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="apple-receipt" onchange="toggle(this)" checked>
+    <span class="al done">Verify Apple receipt</span>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="anthropic-receipt" onchange="toggle(this)" checked>
+    <span class="al done">Verify Anthropic receipts</span>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="animation-festival" onchange="toggle(this)" checked>
+    <span class="al done">Submit to Parsons Animation Festival</span>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="commentary-apr6" onchange="toggle(this)" checked>
+    <span class="al done">Draft Commentary #1 — due Apr 6</span>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="design-studio-a4" onchange="toggle(this)" checked>
+    <span class="al done">Design Studio Assignment 4</span>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="fine-cuts-submission" onchange="toggle(this)" checked>
+    <span class="al done">Fine Cuts Invitational Film Show submission</span>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="concert-briefing" onchange="toggle(this)" checked>
+    <span class="al done">Create concert briefing feature</span>
+  </div>
+
+</div>
+
+<script>
+const GH_REPO = 'jon-goldman/briefings';
+const GH_API = 'https://api.github.com';
+const MEMORY_FILE = 'memory.json';
+let ghToken = localStorage.getItem('gh_briefing_token') || '';
+let memorySha = null;
+let mem = { completed: {}, snoozed: {} };
+let saveTimer = null;
+const TODAY = new Date().toISOString().split('T')[0];
+
+async function connectGitHub() {
+  const t = prompt('Paste your GitHub Personal Access Token (starts with github_pat_):\n\nStored in this browser\'s localStorage — enter once per device.');
+  if (!t || !t.trim()) return;
+  localStorage.setItem('gh_briefing_token', t.trim());
+  ghToken = t.trim();
+  await loadMemory();
+}
+
+async function loadMemory() {
+  if (!ghToken) return;
+  setMemStatus('Connecting…');
+  try {
+    const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${MEMORY_FILE}`,
+      { headers: { 'Authorization': `Bearer ${ghToken}`, 'Accept': 'application/vnd.github+json' } });
+    if (!r.ok) throw new Error(`GitHub API ${r.status}`);
+    const d = await r.json();
+    memorySha = d.sha;
+    const parsed = JSON.parse(atob(d.content.replace(/\s/g, '')));
+    mem.completed = parsed.completed || {};
+    mem.snoozed = parsed.snoozed || {};
+    applyMemory();
+    const btn = document.getElementById('mem-btn');
+    btn.textContent = '✓ GitHub synced'; btn.classList.add('connected'); btn.onclick = null;
+    setMemStatus('Memory loaded ✓', 2000);
+  } catch(e) { setMemStatus(`⚠ ${e.message}`); }
+}
+
+function setMemStatus(msg, ms) {
+  const el = document.getElementById('mem-status');
+  if (el) { el.textContent = msg; if (ms) setTimeout(() => { el.textContent = ''; }, ms); }
+}
+
+function applyMemory() {
+  const snoozeList = document.getElementById('snoozed-list');
+  let snoozeCount = 0;
+  document.querySelectorAll('input[type="checkbox"][data-id]').forEach(cb => {
+    const id = cb.dataset.id;
+    if (mem.completed[id]) {
+      cb.checked = true;
+      cb.closest('.action-item')?.querySelector('.al')?.classList.add('done');
+    }
+    if (mem.snoozed[id]) {
+      if (mem.snoozed[id] > TODAY) {
+        cb.closest('.action-item')?.style.setProperty('display','none');
+        snoozeCount++;
+        if (snoozeList) {
+          const label = cb.closest('.action-item')?.querySelector('.al')?.textContent || id;
+          snoozeList.insertAdjacentHTML('beforeend',
+            `<li class="snoozed-item"><span class="al">${label}</span> <span class="snooze-date">until ${mem.snoozed[id]}</span> <button onclick="unsnooze('${id}')">↩ restore</button></li>`);
+        }
+      } else { delete mem.snoozed[id]; }
+    }
+  });
+  const sc = document.getElementById('snooze-count');
+  if (sc) sc.textContent = snoozeCount;
+}
+
+function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(persistMemory, 500); }
+
+async function persistMemory() {
+  if (!ghToken || !memorySha) return;
+  const payload = JSON.stringify({ completed: mem.completed, snoozed: mem.snoozed, updatedAt: new Date().toISOString() }, null, 2);
+  try {
+    const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${MEMORY_FILE}`, {
+      method: 'PUT',
+      headers: { 'Authorization': `Bearer ${ghToken}`, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: `Update briefing memory ${TODAY}`, content: btoa(unescape(encodeURIComponent(payload))), sha: memorySha })
+    });
+    if (!r.ok) throw new Error(r.status);
+    memorySha = (await r.json()).content.sha;
+    const el = document.getElementById('mem-save-indicator');
+    el.classList.add('visible'); setTimeout(() => el.classList.remove('visible'), 1500);
+  } catch(e) { console.error('GitHub save error:', e); }
+}
+
+function toggle(cb) {
+  const id = cb.dataset.id;
+  cb.closest('.action-item')?.querySelector('.al')?.classList.toggle('done', cb.checked);
+  if (!id) return;
+  if (cb.checked) mem.completed[id] = TODAY; else delete mem.completed[id];
+  scheduleSave();
+}
+
+function snoozeItem(id, label) {
+  const input = prompt(`Snooze "${label}" until when?\nEnter date (e.g. Apr 15 or 2026-04-20):`);
+  if (!input) return;
+  let date = input.trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    const d = new Date(date.match(/\d{4}/) ? date : date + ' 2026');
+    if (isNaN(d)) { alert('Try YYYY-MM-DD format'); return; }
+    date = d.toISOString().split('T')[0];
+  }
+  if (date <= TODAY) { alert('Date must be in the future'); return; }
+  mem.snoozed[id] = date;
+  const cb = document.querySelector(`input[data-id="${id}"]`);
+  cb?.closest('.action-item')?.style.setProperty('display','none');
+  scheduleSave();
+  setMemStatus(`Snoozed until ${date}`, 2000);
+}
+
+function unsnooze(id) {
+  delete mem.snoozed[id];
+  const cb = document.querySelector(`input[data-id="${id}"]`);
+  cb?.closest('.action-item')?.style.removeProperty('display');
+  document.querySelectorAll('.snoozed-item').forEach(li => { if (li.outerHTML.includes(`'${id}'`)) li.remove(); });
+  const sc = document.getElementById('snooze-count');
+  if (sc) sc.textContent = parseInt(sc.textContent || '0') - 1;
+  scheduleSave();
+}
+
+if (ghToken) loadMemory();
+</script>
+</body>
+</html>
