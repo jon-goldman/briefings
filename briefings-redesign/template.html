@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Briefing — {{ weekday }}, {{ month_day }}</title>
+  <link rel="stylesheet" href="https://jon-goldman.github.io/briefings/assets/briefing.css">
+</head>
+<body>
+
+<div class="header">
+  <h1>Daily Briefing</h1>
+  <div class="date">{{ weekday }}, {{ month_day }}</div>
+</div>
+
+<!-- Memory bar -->
+<div class="memory-bar">
+  <button id="mem-btn" onclick="connectGitHub()">Connect GitHub</button>
+  <span id="mem-status"></span>
+  <span id="mem-save-indicator">Saved ✓</span>
+  <a href="https://github.com/jon-goldman/briefings/blob/main/memory.json"
+     target="_blank" class="mem-gh-link">View memory ↗</a>
+</div>
+
+<!-- Section 1: Weather -->
+<div class="weather-bar">{{ weather }}</div>
+
+<!-- Section 2: Today at a Glance -->
+<h2>Today at a Glance</h2>
+<div class="card">
+
+  {% if today_events %}
+  <ul class="timeline">
+    {% for e in today_events %}
+    <li>
+      <strong>{{ e.start_fmt }}{% if e.end_fmt %}–{{ e.end_fmt }}{% endif %}</strong>
+      {{ e.summary }}
+      {% if e.location %}<span class="loc">· {{ e.location }}</span>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="empty">No events today.</p>
+  {% endif %}
+
+  {% if free_windows %}
+  <p class="free-windows">
+    Free windows:
+    {% for w in free_windows %}{{ w.start }}–{{ w.end }} ({{ w.minutes }} min){% if not loop.last %} · {% endif %}{% endfor %}
+  </p>
+  {% endif %}
+
+  {% if focus_blocks %}
+  <div class="focus-header">Focus Blocks</div>
+  {% for b in focus_blocks %}
+  <div class="focus-block">
+    <span class="focus-time">{{ b.time }}</span>
+    <span class="focus-task">{{ b.task }}</span>
+    <span class="focus-dur">{{ b.duration_label }}</span>
+  </div>
+  {% endfor %}
+  {% else %}
+  <p class="empty">No focus blocks computed — no free windows found.</p>
+  {% endif %}
+
+</div>
+
+<!-- Section 3: On the Radar -->
+<h2>On the Radar</h2>
+<div class="card">
+  {% if radar %}
+  {% for item in radar %}
+  <div class="radar-item radar-{{ item.type }}">
+    <span class="radar-date">{{ item.date.strftime('%-m/%-d') }}</span>
+    <span class="radar-label">{{ item.label }}</span>
+    {% if item.reading %}
+    <div class="radar-reading">📖 {{ item.reading }}</div>
+    {% endif %}
+  </div>
+  {% endfor %}
+  {% else %}
+  <p class="empty">Nothing on the radar in the next two weeks.</p>
+  {% endif %}
+</div>
+
+<!-- Section 4: Inbox -->
+<h2>Inbox</h2>
+<div class="card">
+
+  {% if new_emails %}
+  <div class="inbox-group-label">New</div>
+  {% for e in new_emails %}
+  <div class="inbox-item">
+    <span class="inbox-sender">{{ e.sender | truncate(30, True) }}</span>
+    <span class="inbox-subject">{{ e.subject }}</span>
+    {% if e.message_count > 1 %}<span class="inbox-count">({{ e.message_count }})</span>{% endif %}
+    <div class="inbox-snippet">{{ e.snippet }}</div>
+  </div>
+  {% endfor %}
+  {% else %}
+  <p class="empty">Inbox clear — no new mail today.</p>
+  {% endif %}
+
+  {% if lingering_emails %}
+  <div class="inbox-group-label">Lingering</div>
+  {% for e in lingering_emails %}
+  <div class="inbox-item inbox-lingering">
+    <span class="inbox-sender">{{ e.sender | truncate(30, True) }}</span>
+    <span class="inbox-subject">{{ e.subject }}</span>
+    {% if e.message_count > 1 %}<span class="inbox-count">({{ e.message_count }})</span>{% endif %}
+    <div class="inbox-snippet">{{ e.snippet }}</div>
+  </div>
+  {% endfor %}
+  {% endif %}
+
+</div>
+
+<!-- Section 5: Improvement Idea -->
+<h2>Improvement Idea</h2>
+<div class="improvement">{{ improvement }}</div>
+
+<!-- Section 6: Action Items -->
+<h2>Action Items</h2>
+<div class="card">
+
+  {% if action_groups.today %}
+  <div class="action-group-label">Today</div>
+  {% for item in action_groups.today %}
+  <div class="action-item">
+    <input type="checkbox" data-id="{{ item.id }}" onchange="toggle(this)">
+    <span class="al">{{ item.label }}</span>
+    <button class="snooze-btn" onclick="snoozeItem('{{ item.id }}', '{{ item.label }}')">⏸</button>
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  {% if action_groups.upcoming %}
+  <div class="action-group-label">Deadlines</div>
+  {% for item in action_groups.upcoming %}
+  <div class="action-item">
+    <input type="checkbox" data-id="{{ item.id }}" onchange="toggle(this)">
+    <span class="al">{{ item.label }}</span>
+    <button class="snooze-btn" onclick="snoozeItem('{{ item.id }}', '{{ item.label }}')">⏸</button>
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  {% if action_groups.errand %}
+  <div class="action-group-label">Check + Errand</div>
+  {% for item in action_groups.errand %}
+  <div class="action-item">
+    <input type="checkbox" data-id="{{ item.id }}" onchange="toggle(this)">
+    <span class="al">{{ item.label }}</span>
+    <button class="snooze-btn" onclick="snoozeItem('{{ item.id }}', '{{ item.label }}')">⏸</button>
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  {% if action_groups.snoozed %}
+  <details>
+    <summary>Snoozed (<span id="snooze-count">{{ action_groups.snoozed | length }}</span>)</summary>
+    <ul id="snoozed-list">
+      {% for item in action_groups.snoozed %}
+      <li>{{ item.label }} <small>(until {{ item.snooze_until }})</small></li>
+      {% endfor %}
+    </ul>
+  </details>
+  {% else %}
+  <details>
+    <summary>Snoozed (<span id="snooze-count">0</span>)</summary>
+    <ul id="snoozed-list"></ul>
+  </details>
+  {% endif %}
+
+  {% if action_groups.done %}
+  <details>
+    <summary>Done ({{ action_groups.done | length }})</summary>
+    {% for item in action_groups.done %}
+    <div class="action-item">
+      <input type="checkbox" data-id="{{ item.id }}" onchange="toggle(this)" checked>
+      <span class="al done">{{ item.label }}</span>
+    </div>
+    {% endfor %}
+  </details>
+  {% endif %}
+
+</div>
+
+<script src="https://jon-goldman.github.io/briefings/assets/briefing.js"></script>
+</body>
+</html>
