@@ -1,0 +1,228 @@
+{
+  "date": "2026-04-14",
+  "weekday": "Tuesday",
+  "weather": "☀️ NYC — Sunny and warm. High 79°F / Low 60°F.",
+  "timeline": [
+    {
+      "time": "1:55 PM",
+      "label": "Boundaries & Belonging",
+      "sub": "63 Fifth Ave Rm 304",
+      "readings": "Chircop, Efstathiou, Ticktin, Rogovoy"
+    },
+    {
+      "time": "4:00 PM",
+      "label": "Politics of the Archive",
+      "sub": "6 E. 16th Rm 1101",
+      "readings": "UMP site ~15min · Aviles ~6min · Helton ~1hr · Giordano (TBA)"
+    }
+  ],
+  "focus_blocks": [
+    {
+      "time": "9:00 – 1:30 PM",
+      "title": "Morning block",
+      "lines": [
+        "Finish B&B readings before class",
+        "Start Commentary Apr 20 draft"
+      ]
+    },
+    {
+      "time": "After 6 PM",
+      "title": "Evening",
+      "lines": [
+        "Commentary draft continued",
+        "Check Vanguard statement"
+      ]
+    }
+  ],
+  "radar": [
+    {
+      "date": "Apr 20 (Mon)",
+      "items": [
+        "Commentary due by 6pm",
+        "BetaNYC Workshop RSVP due"
+      ]
+    },
+    {
+      "date": "Apr 21 (Tue)",
+      "items": [
+        "BetaNYC Data-Entry Workshop"
+      ]
+    },
+    {
+      "date": "May 1 (Fri)",
+      "items": [
+        "Heilbroner Fellowship deadline"
+      ]
+    },
+    {
+      "date": "May 4 (Sun)",
+      "items": [
+        "Commentary due May 4",
+        "Design Studio Final"
+      ]
+    }
+  ],
+  "inbox": [
+    {
+      "flag": "ACT",
+      "from": "Vanguard",
+      "date": "Apr 12",
+      "body": "Retirement plan statement ready to review. Check account for details.",
+      "lingering": false
+    },
+    {
+      "flag": "FYI",
+      "from": "YouTube Premium",
+      "date": "Apr 10",
+      "body": "Your Premium price is changing. Review the update before it takes effect.",
+      "lingering": false
+    }
+  ],
+  "improvement": "The radar section could show a count of days remaining (e.g. '6 days') next to each deadline to make urgency more scannable.",
+  "action_groups": [
+    {
+      "label": "Today",
+      "items": [
+        {
+          "id": "commentary-apr20",
+          "label": "Draft Commentary due Apr 20"
+        }
+      ]
+    },
+    {
+      "label": "By Monday Apr 20",
+      "items": [
+        {
+          "id": "betanyc-workshop-rsvp",
+          "label": "BetaNYC Data-Entry Workshop RSVP Apr 21"
+        },
+        {
+          "id": "southwest-credits",
+          "label": "Southwest cancellation money / credits on Venture X"
+        },
+        {
+          "id": "vanguard-retirement-statement",
+          "label": "Review Vanguard retirement plan statement"
+        },
+        {
+          "id": "youtube-premium-price",
+          "label": "Review YouTube Premium price update"
+        }
+      ]
+    },
+    {
+      "label": "Upcoming",
+      "items": [
+        {
+          "id": "heilbroner-fellowship",
+          "label": "Apply — Heilbroner Fellowship (deadline May 1)"
+        },
+        {
+          "id": "commentary-may4",
+          "label": "Draft Commentary due May 4"
+        },
+        {
+          "id": "prompt4-animating",
+          "label": "Prompt 4 — Animating Resistance"
+        },
+        {
+          "id": "apple-find-my-disabled",
+          "label": "Verify Apple Find My disabled on iPhone 167"
+        },
+        {
+          "id": "job-search-briefing",
+          "label": "Create job search briefing"
+        },
+        {
+          "id": "ezgi-letter",
+          "label": "Write Ezgi typewriter letter"
+        }
+      ]
+    },
+    {
+      "label": "Check + Errand",
+      "items": [
+        {
+          "id": "notion-running-list",
+          "label": "Check Notion Running List"
+        },
+        {
+          "id": "facebook-link",
+          "label": "Process saved Facebook link"
+        },
+        {
+          "id": "ikar-instagram",
+          "label": "Process saved IKAR Instagram post"
+        },
+        {
+          "id": "united-art-editions",
+          "label": "United Limited Art Editions 1957"
+        },
+        {
+          "id": "data-textbook",
+          "label": "Data textbook (data cells as graves)"
+        },
+        {
+          "id": "car-keys",
+          "label": "Get car keys from home"
+        },
+        {
+          "id": "car-registration",
+          "label": "Registration in car"
+        },
+        {
+          "id": "center-book-arts",
+          "label": "Go to Center for Book Arts"
+        },
+        {
+          "id": "tea-lights",
+          "label": "Get tea lights (regular + larger)"
+        },
+        {
+          "id": "pet-door",
+          "label": "Pet door for the bedroom"
+        },
+        {
+          "id": "pizza-cutter",
+          "label": "Pizza cutter"
+        },
+        {
+          "id": "zip-tie",
+          "label": "Zip tie thingy"
+        },
+        {
+          "id": "gold-chain",
+          "label": "Thin gold chain for Jewish star"
+        },
+        {
+          "id": "fix-whisker",
+          "label": "Fix whisker connection"
+        },
+        {
+          "id": "fix-typewriter",
+          "label": "Fix typewriter"
+        },
+        {
+          "id": "email-jamer",
+          "label": "Email Jamer"
+        },
+        {
+          "id": "clinton-hill-coop",
+          "label": "Look into Clinton Hill / Park Slope co-op"
+        },
+        {
+          "id": "wardrobe-inventory",
+          "label": "Update wardrobe inventory"
+        },
+        {
+          "id": "analogy-note",
+          "label": "Write up seated/standing analogy note"
+        },
+        {
+          "id": "add-school-calendar",
+          "label": "Add school calendar to daily briefing"
+        }
+      ]
+    }
+  ]
+}
