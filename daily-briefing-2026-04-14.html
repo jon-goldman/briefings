@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Briefing — Tuesday, April 14, 2026</title>
+  <link rel="stylesheet" href="https://jon-goldman.github.io/briefings/assets/briefing.css">
+</head>
+<body>
+
+<div class="header">
+  <h1>Daily Briefing</h1>
+  <div class="date">Tuesday, April 14, 2026</div>
+</div>
+
+<div class="memory-bar">
+  <button id="mem-btn" onclick="connectGitHub()">Connect GitHub</button>
+  <span id="mem-status"></span>
+  <span id="mem-save-indicator">Saved ✓</span>
+  <a href="https://github.com/jon-goldman/briefings/blob/main/memory.json" target="_blank" class="mem-gh-link">View memory ↗</a>
+</div>
+
+<div class="weather-bar">
+  ☀️ NYC — Sunny and warm. High 79°F / Low 60°F.
+</div>
+
+<h2>Today at a Glance</h2>
+<div class="card">
+  <ul class="timeline">
+    <li><strong>Morning – 1:55pm</strong> — Free. Readings block (see focus blocks below).</li>
+    <li><strong>1:55–3:45pm</strong> — Boundaries &amp; Belonging · 63 Fifth Ave, Rm 304</li>
+    <li><strong>4:00–5:50pm</strong> — Politics of the Archive · 6 E. 16th St., Rm 1101</li>
+    <li><strong>Evening</strong> — Commentary draft (due Mon Apr 20)</li>
+  </ul>
+  <div class="focus-header">Focus Blocks</div>
+  <div class="focus-block">
+    <strong>9:00am – 12:00pm — Today's readings (3+ hrs)</strong><br>
+    <em>Boundaries &amp; Belonging:</em> Chircop · Efstathiou · Ticktin · Rogovoy<br>
+    <em>Politics of the Archive:</em> UMP site (~15 min) · Aviles (~6 min) · Helton (~1 hr) · Giordano (TBA)
+  </div>
+  <div class="focus-block">
+    <strong>12:00–1:30pm — Quick errands before class</strong><br>
+    Email Jamer · Apple security check · Southwest credits follow-up
+  </div>
+  <div class="focus-block">
+    <strong>After 6:00pm — Commentary draft</strong><br>
+    Due Monday Apr 20 by 6pm — 6 days out. Start the draft tonight.
+  </div>
+</div>
+
+<h2>On the Radar</h2>
+<div class="card">
+  <p><strong>Wed Apr 15</strong> — Design Studio 12:10–2:50pm · Bread &amp; Puppet Show 7–9pm</p>
+  <p><strong>Thu Apr 16</strong> — Haircut 10:30am · Animating Resistance 7–9:40pm · Miner pp. 6–20 (~45 min) due</p>
+  <p><strong>Mon Apr 20</strong> — ⚠️ Commentary due by 6pm (Politics of the Archive)</p>
+  <p><strong>Tue Apr 21</strong> — Boundaries &amp; Belonging 1:55pm · BetaNYC Data-Entry Workshop 2:30pm @ Staten Island (RSVP?)</p>
+  <p><strong>Mon May 1</strong> — Heilbroner Fellowship application deadline</p>
+  <p><strong>Mon May 4</strong> — Commentary due (Politics of the Archive) · Design Studio Final (Wollman Hall)</p>
+</div>
+
+<h2>Inbox</h2>
+<div class="card">
+  <p><strong>⚠️ Apple — Find My disabled on iPhone 167</strong> (Apr 13) — With Find My off, the device can no longer be located or remotely erased. Verify this was intentional at icloud.com/find.</p>
+  <p><strong>💰 Vanguard — $12,000 transfer submitted</strong> (Apr 13) — Settlement fund → bank via ACH. Confirmation only; no action needed unless you didn't initiate it.</p>
+  <p><strong>🗺️ BetaNYC — Mapping for Equity follow-up</strong> (Apr 13) — Thanks for Mahoney Playground Apr 10. Post-event resources available. Data-Entry Workshop Apr 21 @ Staten Island 2:30pm if you want to continue.</p>
+  <p><strong>📋 Vanguard — Retirement plan statement available</strong> (Apr 10, lingering) — Latest statement ready to review online.</p>
+  <p><strong>📺 YouTube Premium — Price update</strong> (Apr 10, lingering) — New rate coming. Worth a look.</p>
+</div>
+
+<h2>Improvement Idea</h2>
+<div class="improvement">
+  The briefing is reading the syllabus now, but readings for B&amp;B Week 11 don't have page counts or time estimates ("TBA"). When you get a chance, fill those in on <code>parsons-syllabus.md</code> so focus blocks can give you accurate time budgets. Same for Giordano in Politics of the Archive. Even rough estimates (e.g., "~1 hr") make a real difference in morning planning.
+</div>
+
+<h2>Action Items</h2>
+<div class="card">
+
+  <div class="action-group"><strong>Today</strong></div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="apple-find-my-disabled" onchange="toggle(this)">
+    <span class="al">Verify Apple "Find My disabled" on iPhone 167 — icloud.com/find</span>
+    <button class="snooze-btn" onclick="snoozeItem('apple-find-my-disabled', 'Verify Apple Find My disabled on iPhone 167')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="email-jamer" onchange="toggle(this)">
+    <span class="al">Email Jamer</span>
+    <button class="snooze-btn" onclick="snoozeItem('email-jamer', 'Email Jamer')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="southwest-credits" onchange="toggle(this)">
+    <span class="al">Southwest cancellation money / credits on Venture X</span>
+    <button class="snooze-btn" onclick="snoozeItem('southwest-credits', 'Southwest cancellation money / credits on Venture X')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="vanguard-retirement-statement" onchange="toggle(this)">
+    <span class="al">Review Vanguard retirement plan statement</span>
+    <button class="snooze-btn" onclick="snoozeItem('vanguard-retirement-statement', 'Review Vanguard retirement plan statement')">⏸</button>
+  </div>
+
+  <div class="action-group"><strong>By Monday Apr 20</strong></div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="commentary-apr20" onchange="toggle(this)">
+    <span class="al">Draft Commentary due Mon Apr 20 by 6pm — Politics of the Archive ⚠️</span>
+    <button class="snooze-btn" onclick="snoozeItem('commentary-apr20', 'Commentary due Apr 20')">⏸</button>
+  </div>
+
+  <div class="action-group"><strong>Upcoming</strong></div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="betanyc-workshop-rsvp" onchange="toggle(this)">
+    <span class="al">Decide on BetaNYC Data-Entry Workshop RSVP — Apr 21 @ Staten Island</span>
+    <button class="snooze-btn" onclick="snoozeItem('betanyc-workshop-rsvp', 'BetaNYC Data-Entry Workshop RSVP Apr 21')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="heilbroner-fellowship" onchange="toggle(this)">
+    <span class="al">Apply — Heilbroner Fellowship (deadline May 1)</span>
+    <button class="snooze-btn" onclick="snoozeItem('heilbroner-fellowship', 'Apply Heilbroner Fellowship deadline May 1')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="prompt4-animating" onchange="toggle(this)">
+    <span class="al">Prompt 4 — Animating Resistance</span>
+    <button class="snooze-btn" onclick="snoozeItem('prompt4-animating', 'Prompt 4 Animating Resistance')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="commentary-may4" onchange="toggle(this)">
+    <span class="al">Draft Commentary due Mon May 4 — Politics of the Archive</span>
+    <button class="snooze-btn" onclick="snoozeItem('commentary-may4', 'Commentary due May 4')">⏸</button>
+  </div>
+
+  <div class="action-group"><strong>Check + Errand</strong></div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="data-textbook" onchange="toggle(this)">
+    <span class="al">Data textbook (data cells as graves) — Strand, New School archive, Housing Works</span>
+    <button class="snooze-btn" onclick="snoozeItem('data-textbook', 'Data textbook - data cells as graves')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="car-keys" onchange="toggle(this)">
+    <span class="al">Get car keys from home</span>
+    <button class="snooze-btn" onclick="snoozeItem('car-keys', 'Get car keys from home')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="clinton-hill-coop" onchange="toggle(this)">
+    <span class="al">Look into Clinton Hill / Park Slope co-op</span>
+    <button class="snooze-btn" onclick="snoozeItem('clinton-hill-coop', 'Look into Clinton Hill / Park Slope co-op')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="ezgi-letter" onchange="toggle(this)">
+    <span class="al">Write Ezgi typewriter letter</span>
+    <button class="snooze-btn" onclick="snoozeItem('ezgi-letter', 'Write Ezgi typewriter letter')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="gold-chain" onchange="toggle(this)">
+    <span class="al">Thin gold chain for Jewish star</span>
+    <button class="snooze-btn" onclick="snoozeItem('gold-chain', 'Thin gold chain for Jewish star')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="fix-typewriter" onchange="toggle(this)">
+    <span class="al">Fix typewriter</span>
+    <button class="snooze-btn" onclick="snoozeItem('fix-typewriter', 'Fix typewriter')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="fix-whisker" onchange="toggle(this)">
+    <span class="al">Fix whisker connection</span>
+    <button class="snooze-btn" onclick="snoozeItem('fix-whisker', 'Fix whisker connection')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="united-art-editions" onchange="toggle(this)">
+    <span class="al">United Limited Art Editions 1957 — look up</span>
+    <button class="snooze-btn" onclick="snoozeItem('united-art-editions', 'United Limited Art Editions 1957')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="wardrobe-inventory" onchange="toggle(this)">
+    <span class="al">Update wardrobe inventory</span>
+    <button class="snooze-btn" onclick="snoozeItem('wardrobe-inventory', 'Update wardrobe inventory')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="car-registration" onchange="toggle(this)">
+    <span class="al">Registration in car — check / update</span>
+    <button class="snooze-btn" onclick="snoozeItem('car-registration', 'Registration in car')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="center-book-arts" onchange="toggle(this)">
+    <span class="al">Go to Center for Book Arts</span>
+    <button class="snooze-btn" onclick="snoozeItem('center-book-arts', 'Go to Center for Book Arts')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="pet-door" onchange="toggle(this)">
+    <span class="al">Pet door for the bedroom</span>
+    <button class="snooze-btn" onclick="snoozeItem('pet-door', 'Pet door for bedroom')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="pizza-cutter" onchange="toggle(this)">
+    <span class="al">Pizza cutter</span>
+    <button class="snooze-btn" onclick="snoozeItem('pizza-cutter', 'Pizza cutter')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="tea-lights" onchange="toggle(this)">
+    <span class="al">Get tea lights (regular + larger)</span>
+    <button class="snooze-btn" onclick="snoozeItem('tea-lights', 'Get tea lights')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="zip-tie" onchange="toggle(this)">
+    <span class="al">Zip tie thingy</span>
+    <button class="snooze-btn" onclick="snoozeItem('zip-tie', 'Zip tie thingy')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="analogy-note" onchange="toggle(this)">
+    <span class="al">Write up seated/standing analogy note</span>
+    <button class="snooze-btn" onclick="snoozeItem('analogy-note', 'Write up seated/standing analogy note')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="facebook-link" onchange="toggle(this)">
+    <span class="al">Process saved Facebook link</span>
+    <button class="snooze-btn" onclick="snoozeItem('facebook-link', 'Process saved Facebook link')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="ikar-instagram" onchange="toggle(this)">
+    <span class="al">Process saved IKAR Instagram post</span>
+    <button class="snooze-btn" onclick="snoozeItem('ikar-instagram', 'Process saved IKAR Instagram post')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="youtube-premium-price" onchange="toggle(this)">
+    <span class="al">Review YouTube Premium price update</span>
+    <button class="snooze-btn" onclick="snoozeItem('youtube-premium-price', 'Review YouTube Premium price update')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="add-school-calendar" onchange="toggle(this)">
+    <span class="al">Add school calendar to daily briefing — ✓ parsons-syllabus.md exists, verify it's loading correctly</span>
+    <button class="snooze-btn" onclick="snoozeItem('add-school-calendar', 'Add school calendar to daily briefing')">⏸</button>
+  </div>
+
+  <details><summary>Snoozed (<span id="snooze-count">0</span>)</summary><ul id="snoozed-list"></ul></details>
+
+  <div class="action-group"><strong>Done</strong></div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="bfapf-confirm" checked onchange="toggle(this)">
+    <span class="al done">Confirm BFAPF print drop-off + form done</span>
+    <button class="snooze-btn" onclick="snoozeItem('bfapf-confirm', 'Confirm BFAPF print drop-off')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="midterm-bb" checked onchange="toggle(this)">
+    <span class="al done">Write Midterm — Boundaries &amp; Belonging</span>
+    <button class="snooze-btn" onclick="snoozeItem('midterm-bb', 'Write Midterm BB')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="prompt3-animating" checked onchange="toggle(this)">
+    <span class="al done">Complete Prompt 3 (Animating Resistance)</span>
+    <button class="snooze-btn" onclick="snoozeItem('prompt3-animating', 'Prompt 3 Animating Resistance')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="design-studio-a4" checked onchange="toggle(this)">
+    <span class="al done">Design Studio Assignment 4</span>
+    <button class="snooze-btn" onclick="snoozeItem('design-studio-a4', 'Design Studio Assignment 4')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="commentary-apr6" checked onchange="toggle(this)">
+    <span class="al done">Draft Commentary due Apr 6</span>
+    <button class="snooze-btn" onclick="snoozeItem('commentary-apr6', 'Commentary due Apr 6')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="animation-festival" checked onchange="toggle(this)">
+    <span class="al done">Submit to Parsons Animation Festival</span>
+    <button class="snooze-btn" onclick="snoozeItem('animation-festival', 'Submit to Parsons Animation Festival')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="fine-cuts-submission" checked onchange="toggle(this)">
+    <span class="al done">Fine Cuts Invitational Film Show submission</span>
+    <button class="snooze-btn" onclick="snoozeItem('fine-cuts-submission', 'Fine Cuts submission')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="dr-churchill-message" checked onchange="toggle(this)">
+    <span class="al done">Read therapist secure message</span>
+    <button class="snooze-btn" onclick="snoozeItem('dr-churchill-message', 'Read therapist secure message')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="aunt-ronni-birthday" checked onchange="toggle(this)">
+    <span class="al done">Wish Aunt Ronni happy birthday</span>
+    <button class="snooze-btn" onclick="snoozeItem('aunt-ronni-birthday', 'Wish Aunt Ronni happy birthday')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="jvp-followup" checked onchange="toggle(this)">
+    <span class="al done">JVP Crown Heights meeting follow-up</span>
+    <button class="snooze-btn" onclick="snoozeItem('jvp-followup', 'JVP follow-up')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="rhetoric-image" checked onchange="toggle(this)">
+    <span class="al done">Rhetoric of the Image read</span>
+    <button class="snooze-btn" onclick="snoozeItem('rhetoric-image', 'Rhetoric of the Image')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="brother-label-tape" checked onchange="toggle(this)">
+    <span class="al done">Brother PT-2700 12mm label tape</span>
+    <button class="snooze-btn" onclick="snoozeItem('brother-label-tape', 'Brother label tape')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="apple-receipt" checked onchange="toggle(this)">
+    <span class="al done">Verify Apple receipt</span>
+    <button class="snooze-btn" onclick="snoozeItem('apple-receipt', 'Verify Apple receipt')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="anthropic-receipt" checked onchange="toggle(this)">
+    <span class="al done">Verify Anthropic receipts</span>
+    <button class="snooze-btn" onclick="snoozeItem('anthropic-receipt', 'Verify Anthropic receipts')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="mlb-signin" checked onchange="toggle(this)">
+    <span class="al done">Check MLB sign-in alert</span>
+    <button class="snooze-btn" onclick="snoozeItem('mlb-signin', 'Check MLB sign-in alert')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="iospa-billing" checked onchange="toggle(this)">
+    <span class="al done">Handle Dr. Iospa billing document</span>
+    <button class="snoozeItem('iospa-billing', 'Dr. Iospa billing document')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="concert-briefing" checked onchange="toggle(this)">
+    <span class="al done">Create concert briefing feature</span>
+    <button class="snooze-btn" onclick="snoozeItem('concert-briefing', 'Create concert briefing feature')">⏸</button>
+  </div>
+  <div class="action-item">
+    <input type="checkbox" data-id="bb-canvas-readings" checked onchange="toggle(this)">
+    <span class="al done">B&amp;B Canvas readings</span>
+    <button class="snooze-btn" onclick="snoozeItem('bb-canvas-readings', 'BB Canvas readings')">⏸</button>
+  </div>
+
+</div>
+
+<script src="https://jon-goldman.github.io/briefings/assets/briefing.js"></script>
+</body>
+</html>
