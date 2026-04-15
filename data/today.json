@@ -1,0 +1,215 @@
+{
+  "date": "Wednesday, April 15, 2026",
+  "isoDate": "2026-04-15",
+  "weather": "☀️ Near-record heat — high 87°F (currently 75°F), sunshine & clouds, only 2% chance of rain; low tonight 68°F.",
+  "schedule": [
+    {
+      "time": "3:00 – 4:00 PM",
+      "label": "Pick up from Larry"
+    },
+    {
+      "time": "7:00 – 9:00 PM",
+      "label": "Bread & Puppet Show"
+    }
+  ],
+  "focusBlocks": [
+    {
+      "emoji": "🧹",
+      "time": "Morning → 2:30 PM",
+      "label": "Admin sweep: Zocdoc update, student position reply, rent amount, review Vanguard transaction. (~1.5 hrs total)"
+    },
+    {
+      "emoji": "🏃",
+      "time": "12:30 – 2:30 PM",
+      "label": "Southwest cancellation money: locate unused travel credit and initiate refund or rebooking. (~45 min)"
+    },
+    {
+      "emoji": "🕔",
+      "time": "4:15 – 6:30 PM",
+      "label": "Errand window between Larry pickup and the show: car registration check, or one item from the running list. Enjoy the near-record warmth."
+    }
+  ],
+  "radar": [
+    {
+      "day": "Thu Apr 16",
+      "items": [
+        "Haircut at 10:30 AM"
+      ]
+    },
+    {
+      "day": "Fri Apr 17",
+      "items": [
+        "Talk Time 11:25 AM (353 Lexington Ave, Fl 3)",
+        "Dentist 3:00 PM",
+        "Double date w Neel & Holly 7:00 PM"
+      ]
+    }
+  ],
+  "radarNote": "📚 No readings or deadlines loaded — fill in ~/Documents/Claude/parsons-syllabus.md to surface academic priorities here.",
+  "inbox": {
+    "attention": [
+      {
+        "sender": "Vanguard",
+        "date": "today",
+        "detail": "Brokerage transaction confirmation for 04/14/2026 is ready to view. Review to confirm."
+      },
+      {
+        "sender": "Zocdoc",
+        "date": "Apr 14",
+        "detail": "Action Required: Update the Zocdoc app today — update before losing access."
+      },
+      {
+        "sender": "Google Security Alert",
+        "date": "Apr 14",
+        "detail": "Claude for Google Drive was granted access to your account. Verify this was intentional."
+      },
+      {
+        "sender": "NYU Langone MyChart",
+        "date": "Apr 14",
+        "detail": "New research study invitation. Log in to review eligibility."
+      },
+      {
+        "sender": "Self-note from school email",
+        "date": "Apr 14",
+        "detail": "Apply to student position — follow up on this application."
+      },
+      {
+        "sender": "Self-note",
+        "date": "Apr 14",
+        "detail": "Update rent amount — complete this task today."
+      }
+    ],
+    "lingering": [
+      {
+        "sender": "Weekly Space Briefing",
+        "date": "Apr 11",
+        "detail": "Automated digest to yourself and Mike. No action needed."
+      }
+    ]
+  },
+  "improvement": "The <code>wttr.in</code> weather endpoint is blocked by the network proxy, so the weather fallback to web search ran automatically — but search results are still returning monthly averages rather than a live forecast. A more reliable fix would be to WebFetch <code>https://forecast.weather.gov/MapClick.php?CityName=New+York&amp;state=NY&amp;site=OKX&amp;textField1=40.7128&amp;textField2=-74.0059</code> (NWS, no auth required) and parse the current conditions table.",
+  "actionGroups": [
+    {
+      "label": "Today",
+      "items": [
+        {
+          "id": "vanguard-brokerage-confirm",
+          "label": "Review Vanguard brokerage transaction confirmation (Apr 14)"
+        },
+        {
+          "id": "zocdoc-app-update",
+          "label": "Update Zocdoc app (action required)"
+        },
+        {
+          "id": "google-security-alert-drive",
+          "label": "Review Google security alert: Claude for Google Drive access"
+        },
+        {
+          "id": "apply-student-position",
+          "label": "Follow up on student position (self-note from school email)"
+        },
+        {
+          "id": "update-rent-amount",
+          "label": "Update rent amount (self-note)"
+        },
+        {
+          "id": "nyu-langone-research-study",
+          "label": "Check NYU Langone research study message"
+        }
+      ]
+    },
+    {
+      "label": "By Thursday",
+      "items": [
+        {
+          "id": "haircut-thursday",
+          "label": "Haircut — Thu Apr 16, 10:30 AM"
+        }
+      ]
+    },
+    {
+      "label": "By Friday",
+      "items": [
+        {
+          "id": "talk-time-friday",
+          "label": "Talk Time — Fri Apr 17, 11:25 AM (353 Lexington Ave, Fl 3)"
+        },
+        {
+          "id": "dentist-friday",
+          "label": "Dentist — Fri Apr 17, 3:00 PM"
+        },
+        {
+          "id": "double-date-neel-holly",
+          "label": "Double date w Neel & Holly — Fri Apr 17, 7:00 PM"
+        }
+      ]
+    },
+    {
+      "label": "Check + Errand",
+      "items": [
+        {
+          "id": "southwest-cancellation",
+          "label": "Southwest cancellation money"
+        },
+        {
+          "id": "car-registration",
+          "label": "Registration in car"
+        },
+        {
+          "id": "add-school-calendar-briefing",
+          "label": "Add school calendar to daily briefing (fill in parsons-syllabus.md)"
+        },
+        {
+          "id": "email-jamer",
+          "label": "Email Jamer"
+        },
+        {
+          "id": "fix-whisker-connection",
+          "label": "Fix whisker connection"
+        },
+        {
+          "id": "pet-door-bedroom",
+          "label": "Pet door for the bedroom"
+        },
+        {
+          "id": "fix-typewriter",
+          "label": "Fix typewriter"
+        },
+        {
+          "id": "clinton-hill-coop",
+          "label": "Look into Clinton Hill / Park Slope coop"
+        },
+        {
+          "id": "wardrobe-inventory",
+          "label": "Update wardrobe inventory"
+        },
+        {
+          "id": "pizza-cutter",
+          "label": "Pizza cutter"
+        },
+        {
+          "id": "thin-gold-chain",
+          "label": "Thin gold chain for Jewish star"
+        },
+        {
+          "id": "center-for-book-arts",
+          "label": "Go to Center for Book Arts"
+        },
+        {
+          "id": "united-limited-art-editions",
+          "label": "United limited art editions 1957"
+        }
+      ]
+    },
+    {
+      "label": "Done",
+      "done": true,
+      "items": [
+        {
+          "id": "data-textbook-strand",
+          "label": "Data textbook — from the Strand, New School archive, housing works"
+        }
+      ]
+    }
+  ]
+}
