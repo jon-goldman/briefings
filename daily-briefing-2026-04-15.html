@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Briefing — Wednesday, April 15, 2026</title>
+  <link rel="stylesheet" href="https://jon-goldman.github.io/briefings/assets/briefing.css">
+</head>
+<body>
+
+<div class="header">
+  <h1>Daily Briefing</h1>
+  <div class="date">Wednesday, April 15, 2026</div>
+</div>
+
+<!-- Memory bar -->
+<div class="memory-bar">
+  <button id="mem-btn" onclick="connectGitHub()">Connect GitHub</button>
+  <span id="mem-status"></span>
+  <span id="mem-save-indicator">Saved ✓</span>
+  <a href="https://github.com/jon-goldman/briefings/blob/main/memory.json" target="_blank" class="mem-gh-link">View memory ↗</a>
+</div>
+
+<!-- Section 1: Weather -->
+<div class="weather-bar">
+  ☀️ Unseasonably warm — high ~75°F, mostly sunny with a possible afternoon shower; warmer-than-normal stretch continues through the week.
+</div>
+
+<!-- Section 2: Today at a Glance -->
+<h2>Today at a Glance</h2>
+<div class="card">
+  <ul class="timeline">
+    <li><strong>3:00 – 4:00 PM</strong> — Pick up from Larry</li>
+    <li><strong>7:00 – 9:00 PM</strong> — Bread &amp; Puppet Show</li>
+  </ul>
+
+  <div class="focus-header">Focus Blocks</div>
+
+  <div class="focus-block">
+    <strong>🟢 Morning → 2:30 PM</strong> — Admin sweep: handle Zocdoc update, reply to student position email, update rent amount. (~1.5 hrs total)
+  </div>
+  <div class="focus-block">
+    <strong>🟡 12:30 – 2:30 PM</strong> — Southwest cancellation money: locate unused travel credit and initiate refund or rebooking. (~45 min)
+  </div>
+  <div class="focus-block">
+    <strong>🔵 4:15 – 6:30 PM</strong> — Errand window between Larry pickup and the show: car registration check, or one item from the running list.
+  </div>
+</div>
+
+<!-- Section 3: On the Radar -->
+<h2>On the Radar</h2>
+<div class="card">
+  <p><strong>Thu Apr 16</strong> — Haircut at 10:30 AM</p>
+  <p><strong>Fri Apr 17</strong> — Talk Time 11:25 AM (353 Lexington Ave, Fl 3) · Dentist 3:00 PM · Double date w Neel &amp; Holly 7:00 PM</p>
+  <p style="color:#888;font-size:0.9em;">⚠️ No school calendar loaded — <code>parsons-syllabus.md</code> not found. Add it to <code>~/Documents/Claude/</code> to surface readings &amp; deadlines here.</p>
+</div>
+
+<!-- Section 4: Inbox -->
+<h2>Inbox</h2>
+<div class="card">
+  <p><strong>Needs attention:</strong></p>
+  <ul>
+    <li><strong>Zocdoc</strong> (Apr 14) — "Action Required: Update the Zocdoc app today" — update before losing access.</li>
+    <li><strong>Google Security Alert</strong> (Apr 14) — Claude for Google Drive was granted access to your account. Verify this was intentional.</li>
+    <li><strong>NYU Langone MyChart</strong> (Apr 14) — New research study invitation. Log in to review eligibility.</li>
+    <li><strong>Self-note from school email</strong> (Apr 14) — Subject: "Apply to student position" — follow up on this application.</li>
+    <li><strong>Self-note</strong> (Apr 14) — "Update rent amount" — complete this task today.</li>
+  </ul>
+  <p><strong>Lingering:</strong></p>
+  <ul>
+    <li><strong>Weekly Space Briefing</strong> (Apr 11) — Automated digest sent to yourself and Mike. No action needed.</li>
+  </ul>
+</div>
+
+<!-- Section 5: Improvement Idea -->
+<h2>Improvement Idea</h2>
+<div class="improvement">
+  The <code>parsons-syllabus.md</code> file wasn't found in <code>~/Documents/Claude/</code>, which means the briefing has no visibility into upcoming readings, deadlines, or class schedules. Adding this file (your course schedule, reading list with time estimates, and assignment due dates) would make the Focus Blocks section dramatically more useful — it could automatically surface what to read before the next class, flag deadlines within 5 days, and keep academic work front and center. You even have a Notion to-do for this: "Add school calendar to daily briefing."
+</div>
+
+<!-- Section 6: Action Items -->
+<h2>Action Items</h2>
+<div class="card">
+
+  <!-- Today -->
+  <div class="group-label">Today</div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="zocdoc-app-update" onchange="toggle(this)">
+    <span class="al">Update Zocdoc app (action required)</span>
+    <button class="snooze-btn" onclick="snoozeItem('zocdoc-app-update', 'Update Zocdoc app')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="google-security-alert-drive" onchange="toggle(this)">
+    <span class="al">Review Google security alert: Claude for Google Drive access</span>
+    <button class="snooze-btn" onclick="snoozeItem('google-security-alert-drive', 'Review Google security alert')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="apply-student-position" onchange="toggle(this)">
+    <span class="al">Follow up on student position (self-note from school email)</span>
+    <button class="snooze-btn" onclick="snoozeItem('apply-student-position', 'Follow up on student position')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="update-rent-amount" onchange="toggle(this)">
+    <span class="al">Update rent amount (self-note)</span>
+    <button class="snooze-btn" onclick="snoozeItem('update-rent-amount', 'Update rent amount')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="nyu-langone-research-study" onchange="toggle(this)">
+    <span class="al">Check NYU Langone research study message</span>
+    <button class="snooze-btn" onclick="snoozeItem('nyu-langone-research-study', 'Check NYU Langone research study')">⏸</button>
+  </div>
+
+  <!-- By Thursday -->
+  <div class="group-label">By Thursday</div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="haircut-thursday" onchange="toggle(this)">
+    <span class="al">Haircut — Thu Apr 16, 10:30 AM</span>
+    <button class="snooze-btn" onclick="snoozeItem('haircut-thursday', 'Haircut Thu 10:30 AM')">⏸</button>
+  </div>
+
+  <!-- By Friday -->
+  <div class="group-label">By Friday</div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="talk-time-friday" onchange="toggle(this)">
+    <span class="al">Talk Time — Fri Apr 17, 11:25 AM (353 Lexington Ave, Fl 3)</span>
+    <button class="snooze-btn" onclick="snoozeItem('talk-time-friday', 'Talk Time Fri 11:25 AM')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="dentist-friday" onchange="toggle(this)">
+    <span class="al">Dentist — Fri Apr 17, 3:00 PM</span>
+    <button class="snooze-btn" onclick="snoozeItem('dentist-friday', 'Dentist Fri 3 PM')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="double-date-neel-holly" onchange="toggle(this)">
+    <span class="al">Double date w Neel &amp; Holly — Fri Apr 17, 7:00 PM</span>
+    <button class="snooze-btn" onclick="snoozeItem('double-date-neel-holly', 'Double date Neel & Holly')">⏸</button>
+  </div>
+
+  <!-- Check + Errand -->
+  <div class="group-label">Check + Errand</div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="southwest-cancellation" onchange="toggle(this)">
+    <span class="al">Southwest cancellation money</span>
+    <button class="snooze-btn" onclick="snoozeItem('southwest-cancellation', 'Southwest cancellation money')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="car-registration" onchange="toggle(this)">
+    <span class="al">Registration in car</span>
+    <button class="snooze-btn" onclick="snoozeItem('car-registration', 'Registration in car')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="add-school-calendar-briefing" onchange="toggle(this)">
+    <span class="al">Add school calendar to daily briefing (create parsons-syllabus.md)</span>
+    <button class="snooze-btn" onclick="snoozeItem('add-school-calendar-briefing', 'Add school calendar to briefing')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="email-jamer" onchange="toggle(this)">
+    <span class="al">Email Jamer</span>
+    <button class="snooze-btn" onclick="snoozeItem('email-jamer', 'Email Jamer')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="fix-whisker-connection" onchange="toggle(this)">
+    <span class="al">Fix whisker connection</span>
+    <button class="snooze-btn" onclick="snoozeItem('fix-whisker-connection', 'Fix whisker connection')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="pet-door-bedroom" onchange="toggle(this)">
+    <span class="al">Pet door for the bedroom</span>
+    <button class="snooze-btn" onclick="snoozeItem('pet-door-bedroom', 'Pet door for the bedroom')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="fix-typewriter" onchange="toggle(this)">
+    <span class="al">Fix typewriter</span>
+    <button class="snooze-btn" onclick="snoozeItem('fix-typewriter', 'Fix typewriter')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="clinton-hill-coop" onchange="toggle(this)">
+    <span class="al">Look into Clinton Hill / Park Slope coop</span>
+    <button class="snooze-btn" onclick="snoozeItem('clinton-hill-coop', 'Look into Clinton Hill / Park Slope coop')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="wardrobe-inventory" onchange="toggle(this)">
+    <span class="al">Update wardrobe inventory</span>
+    <button class="snooze-btn" onclick="snoozeItem('wardrobe-inventory', 'Update wardrobe inventory')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="pizza-cutter" onchange="toggle(this)">
+    <span class="al">Pizza cutter</span>
+    <button class="snooze-btn" onclick="snoozeItem('pizza-cutter', 'Pizza cutter')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="thin-gold-chain" onchange="toggle(this)">
+    <span class="al">Thin gold chain for Jewish star</span>
+    <button class="snooze-btn" onclick="snoozeItem('thin-gold-chain', 'Thin gold chain for Jewish star')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="center-for-book-arts" onchange="toggle(this)">
+    <span class="al">Go to Center for Book Arts</span>
+    <button class="snooze-btn" onclick="snoozeItem('center-for-book-arts', 'Go to Center for Book Arts')">⏸</button>
+  </div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="united-limited-art-editions" onchange="toggle(this)">
+    <span class="al">United limited art editions 1957</span>
+    <button class="snooze-btn" onclick="snoozeItem('united-limited-art-editions', 'United limited art editions 1957')">⏸</button>
+  </div>
+
+  <!-- Snoozed -->
+  <details>
+    <summary>Snoozed (<span id="snooze-count">0</span>)</summary>
+    <ul id="snoozed-list"></ul>
+  </details>
+
+  <!-- Done -->
+  <div class="group-label">Done</div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="data-textbook-strand" checked onchange="toggle(this)">
+    <span class="al done">Data textbook — from the Strand, New School archive, housing works</span>
+    <button class="snooze-btn" onclick="snoozeItem('data-textbook-strand', 'Data textbook strand')">⏸</button>
+  </div>
+
+</div>
+
+<script src="https://jon-goldman.github.io/briefings/assets/briefing.js"></script>
+</body>
+</html>
