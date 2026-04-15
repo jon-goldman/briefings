@@ -23,7 +23,7 @@
 
 <!-- Section 1: Weather -->
 <div class="weather-bar">
-  ☀️ Unseasonably warm — high ~75°F, mostly sunny with a possible afternoon shower; warmer-than-normal stretch continues through the week.
+  ☀️ Near-record heat — high 87°F (currently 75°F), sunshine &amp; clouds, only 2% chance of rain; low tonight 68°F.
 </div>
 
 <!-- Section 2: Today at a Glance -->
@@ -37,13 +37,13 @@
   <div class="focus-header">Focus Blocks</div>
 
   <div class="focus-block">
-    <strong>🟢 Morning → 2:30 PM</strong> — Admin sweep: handle Zocdoc update, reply to student position email, update rent amount. (~1.5 hrs total)
+    <strong>🟢 Morning → 2:30 PM</strong> — Admin sweep: Zocdoc update, student position reply, rent amount, review Vanguard transaction. (~1.5 hrs total)
   </div>
   <div class="focus-block">
     <strong>🟡 12:30 – 2:30 PM</strong> — Southwest cancellation money: locate unused travel credit and initiate refund or rebooking. (~45 min)
   </div>
   <div class="focus-block">
-    <strong>🔵 4:15 – 6:30 PM</strong> — Errand window between Larry pickup and the show: car registration check, or one item from the running list.
+    <strong>🔵 4:15 – 6:30 PM</strong> — Errand window between Larry pickup and the show: car registration check, or one item from the running list. Enjoy the near-record warmth.
   </div>
 </div>
 
@@ -52,7 +52,7 @@
 <div class="card">
   <p><strong>Thu Apr 16</strong> — Haircut at 10:30 AM</p>
   <p><strong>Fri Apr 17</strong> — Talk Time 11:25 AM (353 Lexington Ave, Fl 3) · Dentist 3:00 PM · Double date w Neel &amp; Holly 7:00 PM</p>
-  <p style="color:#888;font-size:0.9em;">⚠️ No school calendar loaded — <code>parsons-syllabus.md</code> not found. Add it to <code>~/Documents/Claude/</code> to surface readings &amp; deadlines here.</p>
+  <p style="color:#888;font-size:0.9em;">📚 No readings or deadlines loaded — fill in <code>~/Documents/Claude/parsons-syllabus.md</code> to surface academic priorities here.</p>
 </div>
 
 <!-- Section 4: Inbox -->
@@ -60,22 +60,23 @@
 <div class="card">
   <p><strong>Needs attention:</strong></p>
   <ul>
+    <li><strong>Vanguard</strong> (today) — Brokerage transaction confirmation for 04/14/2026 is ready to view. Review to confirm.</li>
     <li><strong>Zocdoc</strong> (Apr 14) — "Action Required: Update the Zocdoc app today" — update before losing access.</li>
     <li><strong>Google Security Alert</strong> (Apr 14) — Claude for Google Drive was granted access to your account. Verify this was intentional.</li>
     <li><strong>NYU Langone MyChart</strong> (Apr 14) — New research study invitation. Log in to review eligibility.</li>
-    <li><strong>Self-note from school email</strong> (Apr 14) — Subject: "Apply to student position" — follow up on this application.</li>
+    <li><strong>Self-note from school email</strong> (Apr 14) — "Apply to student position" — follow up on this application.</li>
     <li><strong>Self-note</strong> (Apr 14) — "Update rent amount" — complete this task today.</li>
   </ul>
   <p><strong>Lingering:</strong></p>
   <ul>
-    <li><strong>Weekly Space Briefing</strong> (Apr 11) — Automated digest sent to yourself and Mike. No action needed.</li>
+    <li><strong>Weekly Space Briefing</strong> (Apr 11) — Automated digest to yourself and Mike. No action needed.</li>
   </ul>
 </div>
 
 <!-- Section 5: Improvement Idea -->
 <h2>Improvement Idea</h2>
 <div class="improvement">
-  The <code>parsons-syllabus.md</code> file wasn't found in <code>~/Documents/Claude/</code>, which means the briefing has no visibility into upcoming readings, deadlines, or class schedules. Adding this file (your course schedule, reading list with time estimates, and assignment due dates) would make the Focus Blocks section dramatically more useful — it could automatically surface what to read before the next class, flag deadlines within 5 days, and keep academic work front and center. You even have a Notion to-do for this: "Add school calendar to daily briefing."
+  The <code>wttr.in</code> weather endpoint is blocked by the network proxy, so the weather fallback to web search ran automatically — but search results are still returning monthly averages rather than a live forecast. A more reliable fix would be to WebFetch <code>https://forecast.weather.gov/MapClick.php?CityName=New+York&state=NY&site=OKX&textField1=40.7128&textField2=-74.0059</code> (NWS, no auth required) and parse the current conditions table. That would give a guaranteed real-time forecast even when wttr.in is unavailable.
 </div>
 
 <!-- Section 6: Action Items -->
@@ -84,6 +85,12 @@
 
   <!-- Today -->
   <div class="group-label">Today</div>
+
+  <div class="action-item">
+    <input type="checkbox" data-id="vanguard-brokerage-confirm" onchange="toggle(this)">
+    <span class="al">Review Vanguard brokerage transaction confirmation (Apr 14)</span>
+    <button class="snooze-btn" onclick="snoozeItem('vanguard-brokerage-confirm', 'Review Vanguard brokerage confirmation')">⏸</button>
+  </div>
 
   <div class="action-item">
     <input type="checkbox" data-id="zocdoc-app-update" onchange="toggle(this)">
@@ -162,7 +169,7 @@
 
   <div class="action-item">
     <input type="checkbox" data-id="add-school-calendar-briefing" onchange="toggle(this)">
-    <span class="al">Add school calendar to daily briefing (create parsons-syllabus.md)</span>
+    <span class="al">Add school calendar to daily briefing (fill in parsons-syllabus.md)</span>
     <button class="snooze-btn" onclick="snoozeItem('add-school-calendar-briefing', 'Add school calendar to briefing')">⏸</button>
   </div>
 
