@@ -1,0 +1,154 @@
+[
+  {
+    "course": "Animating Resistance",
+    "code": "NMDS 5446",
+    "item": "Reading: Miner pp. 6–20",
+    "dueDate": "2026-04-16",
+    "estimatedTime": "~45 min",
+    "type": "reading"
+  },
+  {
+    "course": "Politics of the Archive",
+    "code": "GHIS 5201",
+    "item": "Commentary due by 6pm (every other Monday)",
+    "dueDate": "2026-04-20",
+    "estimatedTime": null,
+    "type": "assignment"
+  },
+  {
+    "course": "Boundaries and Belonging",
+    "code": "UTNS 6000",
+    "item": "Reading: Media on the border (TBA)",
+    "dueDate": "2026-04-21",
+    "estimatedTime": null,
+    "type": "reading"
+  },
+  {
+    "course": "Animating Resistance",
+    "code": "NMDS 5446",
+    "item": "No class (makeup May 15)",
+    "dueDate": "2026-04-23",
+    "estimatedTime": null,
+    "type": "note"
+  },
+  {
+    "course": "Transdisciplinary Design Studio 2",
+    "code": "PGTD 5101",
+    "item": "Assignment 3 due",
+    "dueDate": "2026-04-27",
+    "estimatedTime": null,
+    "type": "assignment"
+  },
+  {
+    "course": "Boundaries and Belonging",
+    "code": "UTNS 6000",
+    "item": "Reading: Stoetzer Ruderal City (TBA)",
+    "dueDate": "2026-04-28",
+    "estimatedTime": null,
+    "type": "reading"
+  },
+  {
+    "course": "Politics of the Archive",
+    "code": "GHIS 5201",
+    "item": "Reading: Bubandt (~2 hr) + Fahrmeir (~50 min) + Schwartz (~2.5 hr)",
+    "dueDate": "2026-04-28",
+    "estimatedTime": "~5.3 hrs",
+    "type": "reading"
+  },
+  {
+    "course": "Animating Resistance",
+    "code": "NMDS 5446",
+    "item": "Reading: Galloway pp. 54–67",
+    "dueDate": "2026-04-30",
+    "estimatedTime": "~40 min",
+    "type": "reading"
+  },
+  {
+    "course": "Transdisciplinary Design Studio 2",
+    "code": "PGTD 5101",
+    "item": "Final presentation, Wollman Hall",
+    "dueDate": "2026-05-04",
+    "estimatedTime": null,
+    "type": "deadline"
+  },
+  {
+    "course": "Politics of the Archive",
+    "code": "GHIS 5201",
+    "item": "Commentary due by 6pm (every other Monday)",
+    "dueDate": "2026-05-04",
+    "estimatedTime": null,
+    "type": "assignment"
+  },
+  {
+    "course": "Boundaries and Belonging",
+    "code": "UTNS 6000",
+    "item": "Reading: Benabdallah (~30 min) + Brighi (~1 hr)",
+    "dueDate": "2026-05-05",
+    "estimatedTime": "~1.5 hrs",
+    "type": "reading"
+  },
+  {
+    "course": "Politics of the Archive",
+    "code": "GHIS 5201",
+    "item": "Reading: Harcourt (~45 min) + Ououha (~15 min) + Povinelli (~45 min) + Cifor (~1 hr) + Cheikhali et al. (~1 hr)",
+    "dueDate": "2026-05-05",
+    "estimatedTime": "~3.75 hrs",
+    "type": "reading"
+  },
+  {
+    "course": "Animating Resistance",
+    "code": "NMDS 5446",
+    "item": "Reading: Stacey + Suchman pp. 1–46",
+    "dueDate": "2026-05-07",
+    "estimatedTime": "~2.5 hrs",
+    "type": "reading"
+  },
+  {
+    "course": "Printmaking",
+    "code": null,
+    "item": "Final project + critique",
+    "dueDate": "2026-05-07",
+    "estimatedTime": null,
+    "type": "deadline"
+  },
+  {
+    "course": "Boundaries and Belonging",
+    "code": "UTNS 6000",
+    "item": "Reading: Hughes 'Leros: Island of Exile' (TBA) — final exam prompt distributed",
+    "dueDate": "2026-05-12",
+    "estimatedTime": null,
+    "type": "reading"
+  },
+  {
+    "course": "Politics of the Archive",
+    "code": "GHIS 5201",
+    "item": "Viewing: The Act of Killing (2012, ~2h 39min) + Juarez + Thomas (TBA)",
+    "dueDate": "2026-05-12",
+    "estimatedTime": "~2h 39min+",
+    "type": "reading"
+  },
+  {
+    "course": "Animating Resistance",
+    "code": "NMDS 5446",
+    "item": "Final project presentations",
+    "dueDate": "2026-05-14",
+    "estimatedTime": null,
+    "type": "deadline"
+  },
+  {
+    "course": "Politics of the Archive",
+    "code": "GHIS 5201",
+    "item": "Second essay (10pp)",
+    "dueDate": "2026-05-15",
+    "estimatedTime": null,
+    "type": "deadline"
+  },
+  {
+    "course": "Boundaries and Belonging",
+    "code": "UTNS 6000",
+    "item": "Final paper",
+    "dueDate": "2026-05-21",
+    "estimatedTime": null,
+    "type": "deadline"
+  }
+]
