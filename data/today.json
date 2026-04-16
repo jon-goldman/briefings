@@ -1,146 +1,89 @@
 {
-  "date": "Wednesday, April 15, 2026",
-  "isoDate": "2026-04-15",
-  "weather": "☀️ Near-record heat — high 87°F (currently 75°F), sunshine & clouds, only 2% chance of rain; low tonight 68°F.",
+  "date": "Thursday, April 16, 2026",
+  "isoDate": "2026-04-16",
+  "weather": "🌡️ Heat wave — Sunny & hot, High 90°F / Low 67°F, ~0% rain",
   "schedule": [
     {
-      "time": "3:00 – 4:00 PM",
-      "label": "Pick up from Larry"
-    },
-    {
-      "time": "7:00 – 9:00 PM",
-      "label": "Bread & Puppet Show"
+      "time": "10:30 – 11:00 AM",
+      "label": "Haircut"
     }
   ],
   "focusBlocks": [
     {
-      "emoji": "🧹",
-      "time": "Morning → 2:30 PM",
-      "label": "Admin sweep: Zocdoc update, student position reply, rent amount, review Vanguard transaction. (~1.5 hrs total)"
+      "emoji": "📬",
+      "time": "8:00 – 10:00 AM",
+      "label": "Inbox triage + self-notes (2 hrs)"
     },
     {
-      "emoji": "🏃",
-      "time": "12:30 – 2:30 PM",
-      "label": "Southwest cancellation money: locate unused travel credit and initiate refund or rebooking. (~45 min)"
+      "emoji": "📚",
+      "time": "11:30 AM – 2:00 PM",
+      "label": "Deep work / Parsons work (2.5 hrs)"
     },
     {
-      "emoji": "🕔",
-      "time": "4:15 – 6:30 PM",
-      "label": "Errand window between Larry pickup and the show: car registration check, or one item from the running list. Enjoy the near-record warmth."
+      "emoji": "🌆",
+      "time": "4:00 – 6:00 PM",
+      "label": "Errands & outdoor time — beat the heat peak (2 hrs)"
     }
   ],
   "radar": [
     {
-      "day": "Thu Apr 16",
+      "day": "Fri Apr 17",
       "items": [
-        "Haircut at 10:30 AM"
+        "Talk Time 11:25 AM – 12:15 PM (353 Lexington Ave)",
+        "Double date w Neel & Holly 7:00 – 11:00 PM"
       ]
     },
     {
-      "day": "Fri Apr 17",
+      "day": "Sat Apr 18",
       "items": [
-        "Talk Time 11:25 AM (353 Lexington Ave, Fl 3)",
-        "Dentist 3:00 PM",
-        "Double date w Neel & Holly 7:00 PM"
+        "JOSH RECOGNIZES US (all day)"
+      ]
+    },
+    {
+      "day": "Sun Apr 19",
+      "items": [
+        "Nothing scheduled"
       ]
     }
   ],
-  "radarNote": "📚 No readings or deadlines loaded — fill in ~/Documents/Claude/parsons-syllabus.md to surface academic priorities here.",
+  "radarNote": "📋 Parsons syllabus not found — add upcoming readings & deadlines to ~/Documents/Claude/parsons-syllabus.md so they show up here.",
   "inbox": {
     "attention": [
       {
-        "sender": "Vanguard",
-        "date": "today",
-        "detail": "Brokerage transaction confirmation for 04/14/2026 is ready to view. Review to confirm."
+        "sender": "Jon (Parsons self-note)",
+        "date": "Apr 14",
+        "detail": "Apply to student position — email sent from goldj437@newschool.edu"
       },
       {
-        "sender": "Zocdoc",
+        "sender": "Jon (self-note)",
         "date": "Apr 14",
-        "detail": "Action Required: Update the Zocdoc app today — update before losing access."
-      },
-      {
-        "sender": "Google Security Alert",
-        "date": "Apr 14",
-        "detail": "Claude for Google Drive was granted access to your account. Verify this was intentional."
-      },
-      {
-        "sender": "NYU Langone MyChart",
-        "date": "Apr 14",
-        "detail": "New research study invitation. Log in to review eligibility."
-      },
-      {
-        "sender": "Self-note from school email",
-        "date": "Apr 14",
-        "detail": "Apply to student position — follow up on this application."
-      },
-      {
-        "sender": "Self-note",
-        "date": "Apr 14",
-        "detail": "Update rent amount — complete this task today."
+        "detail": "Update rent amount"
       }
     ],
     "lingering": [
       {
-        "sender": "Weekly Space Briefing",
-        "date": "Apr 11",
-        "detail": "Automated digest to yourself and Mike. No action needed."
+        "sender": "Matt Hovious",
+        "date": "Apr 13",
+        "detail": "Job lead: Strategic Partnerships Advisor for Beyond Type 1 (Nick Jonas nonprofit) — corporate partnerships consultant role forwarded to social-enterprise-jobs list"
       }
     ]
   },
-  "improvement": "The <code>wttr.in</code> weather endpoint is blocked by the network proxy, so the weather fallback to web search ran automatically — but search results are still returning monthly averages rather than a live forecast. A more reliable fix would be to WebFetch <code>https://forecast.weather.gov/MapClick.php?CityName=New+York&amp;state=NY&amp;site=OKX&amp;textField1=40.7128&amp;textField2=-74.0059</code> (NWS, no auth required) and parse the current conditions table.",
+  "improvement": "<b>🌊 Heat wave day!</b> Temps hit ~90°F today — run errands early or after 6 PM. Stay hydrated and consider a light outfit for your haircut appointment.",
   "actionGroups": [
     {
       "label": "Today",
       "items": [
         {
-          "id": "vanguard-brokerage-confirm",
-          "label": "Review Vanguard brokerage transaction confirmation (Apr 14)"
-        },
-        {
-          "id": "zocdoc-app-update",
-          "label": "Update Zocdoc app (action required)"
-        },
-        {
-          "id": "google-security-alert-drive",
-          "label": "Review Google security alert: Claude for Google Drive access"
-        },
-        {
           "id": "apply-student-position",
-          "label": "Follow up on student position (self-note from school email)"
+          "label": "Follow up on student position (Parsons email self-note)"
         },
         {
           "id": "update-rent-amount",
-          "label": "Update rent amount (self-note)"
+          "label": "Update rent amount"
         },
         {
-          "id": "nyu-langone-research-study",
-          "label": "Check NYU Langone research study message"
-        }
-      ]
-    },
-    {
-      "label": "By Thursday",
-      "items": [
-        {
-          "id": "haircut-thursday",
-          "label": "Haircut — Thu Apr 16, 10:30 AM"
-        }
-      ]
-    },
-    {
-      "label": "By Friday",
-      "items": [
-        {
-          "id": "talk-time-friday",
-          "label": "Talk Time — Fri Apr 17, 11:25 AM (353 Lexington Ave, Fl 3)"
-        },
-        {
-          "id": "dentist-friday",
-          "label": "Dentist — Fri Apr 17, 3:00 PM"
-        },
-        {
-          "id": "double-date-neel-holly",
-          "label": "Double date w Neel & Holly — Fri Apr 17, 7:00 PM"
+          "id": "review-beyond-type1-lead",
+          "label": "Review Strategic Advisor lead at Beyond Type 1 — respond or pass"
         }
       ]
     },
@@ -148,68 +91,19 @@
       "label": "Check + Errand",
       "items": [
         {
-          "id": "southwest-cancellation",
-          "label": "Southwest cancellation money"
+          "id": "fill-parsons-syllabus",
+          "label": "Fill in ~/Documents/Claude/parsons-syllabus.md with upcoming readings & deadlines"
         },
         {
-          "id": "car-registration",
-          "label": "Registration in car"
-        },
-        {
-          "id": "add-school-calendar-briefing",
-          "label": "Add school calendar to daily briefing (fill in parsons-syllabus.md)"
-        },
-        {
-          "id": "email-jamer",
-          "label": "Email Jamer"
-        },
-        {
-          "id": "fix-whisker-connection",
-          "label": "Fix whisker connection"
-        },
-        {
-          "id": "pet-door-bedroom",
-          "label": "Pet door for the bedroom"
-        },
-        {
-          "id": "fix-typewriter",
-          "label": "Fix typewriter"
-        },
-        {
-          "id": "clinton-hill-coop",
-          "label": "Look into Clinton Hill / Park Slope coop"
-        },
-        {
-          "id": "wardrobe-inventory",
-          "label": "Update wardrobe inventory"
-        },
-        {
-          "id": "pizza-cutter",
-          "label": "Pizza cutter"
-        },
-        {
-          "id": "thin-gold-chain",
-          "label": "Thin gold chain for Jewish star"
-        },
-        {
-          "id": "center-for-book-arts",
-          "label": "Go to Center for Book Arts"
-        },
-        {
-          "id": "united-limited-art-editions",
-          "label": "United limited art editions 1957"
+          "id": "check-notion-my-tasks",
+          "label": "Review My Tasks in Notion for any open items"
         }
       ]
     },
     {
       "label": "Done",
       "done": true,
-      "items": [
-        {
-          "id": "data-textbook-strand",
-          "label": "Data textbook — from the Strand, New School archive, housing works"
-        }
-      ]
+      "items": []
     }
   ]
 }
