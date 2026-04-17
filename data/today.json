@@ -1,38 +1,30 @@
 {
-  "date": "Thursday, April 16, 2026",
-  "isoDate": "2026-04-16",
-  "weather": "🌡️ Heat wave — Sunny & hot, High 90°F / Low 67°F, ~0% rain",
+  "date": "Friday, April 17, 2026",
+  "isoDate": "2026-04-17",
+  "weather": "🌧️ Rainy & warm — High 77°F / Low 61°F, ~68% rain",
   "schedule": [
     {
-      "time": "10:30 – 11:00 AM",
-      "label": "Haircut"
+      "time": "11:25 AM – 12:15 PM",
+      "label": "Talk Time (353 Lexington Ave)"
+    },
+    {
+      "time": "7:00 – 11:00 PM",
+      "label": "Double date w Neel and Holly"
     }
   ],
   "focusBlocks": [
     {
-      "emoji": "📬",
-      "time": "8:00 – 10:00 AM",
-      "label": "Inbox triage + self-notes (2 hrs)"
+      "emoji": "✍️",
+      "time": "8:00 – 11:00 AM",
+      "label": "Parsons writing — Politics of Archive commentary draft (3 hrs)"
     },
     {
       "emoji": "📚",
-      "time": "11:30 AM – 2:00 PM",
-      "label": "Deep work / Parsons work (2.5 hrs)"
-    },
-    {
-      "emoji": "🌆",
-      "time": "4:00 – 6:00 PM",
-      "label": "Errands & outdoor time — beat the heat peak (2 hrs)"
+      "time": "12:30 – 3:30 PM",
+      "label": "Reading — Boundaries & Belonging catch-up (3 hrs)"
     }
   ],
   "radar": [
-    {
-      "day": "Fri Apr 17",
-      "items": [
-        "Talk Time 11:25 AM – 12:15 PM (353 Lexington Ave)",
-        "Double date w Neel & Holly 7:00 – 11:00 PM"
-      ]
-    },
     {
       "day": "Sat Apr 18",
       "items": [
@@ -42,33 +34,45 @@
     {
       "day": "Sun Apr 19",
       "items": [
-        "Nothing scheduled"
+        "Rest day — nothing scheduled"
+      ]
+    },
+    {
+      "day": "Mon Apr 20",
+      "items": [
+        "GHIS 5201 — Commentary due by 6pm (Politics of the Archive)"
+      ]
+    },
+    {
+      "day": "Tue Apr 21",
+      "items": [
+        "UTNS 6000 — Reading: Media on the border (TBA)"
       ]
     }
   ],
-  "radarNote": "📋 Parsons syllabus not found — add upcoming readings & deadlines to ~/Documents/Claude/parsons-syllabus.md so they show up here.",
+  "radarNote": null,
   "inbox": {
     "attention": [
       {
-        "sender": "Jon (Parsons self-note)",
-        "date": "Apr 14",
-        "detail": "Apply to student position — email sent from goldj437@newschool.edu"
-      },
-      {
-        "sender": "Jon (self-note)",
-        "date": "Apr 14",
-        "detail": "Update rent amount"
+        "sender": "mgold61@aol.com",
+        "date": "Apr 17",
+        "detail": "Dad forwarded Forest Hills Stadium job fair — this Saturday, worth a look"
       }
     ],
     "lingering": [
       {
-        "sender": "Matt Hovious",
-        "date": "Apr 13",
-        "detail": "Job lead: Strategic Partnerships Advisor for Beyond Type 1 (Nick Jonas nonprofit) — corporate partnerships consultant role forwarded to social-enterprise-jobs list"
+        "sender": "Other Islands / Pratt",
+        "date": "Apr 17",
+        "detail": "Other Islands Book Fair Apr 25–26 at Pfizer Building — public gathering, free"
+      },
+      {
+        "sender": "Secret Riso Club",
+        "date": "Apr 16",
+        "detail": "Members field trip to Library 180 announced — RSVP may be needed"
       }
     ]
   },
-  "improvement": "<b>🌊 Heat wave day!</b> Temps hit ~90°F today — run errands early or after 6 PM. Stay hydrated and consider a light outfit for your haircut appointment.",
+  "improvement": null,
   "actionGroups": [
     {
       "label": "Today",
@@ -78,18 +82,40 @@
           "label": "Follow up on student position (Parsons email self-note)"
         },
         {
-          "id": "update-rent-amount",
-          "label": "Update rent amount"
-        },
+          "id": "check-job-fair-email",
+          "label": "Check job fair email Dad forwarded — Forest Hills Stadium this Saturday"
+        }
+      ]
+    },
+    {
+      "label": "By Mon Apr 20",
+      "items": [
         {
-          "id": "review-beyond-type1-lead",
-          "label": "Review Strategic Advisor lead at Beyond Type 1 — respond or pass"
+          "id": "politics-archive-commentary",
+          "label": "GHIS 5201 — Commentary due by 6pm (Politics of the Archive)"
+        }
+      ]
+    },
+    {
+      "label": "By Tue Apr 21",
+      "items": [
+        {
+          "id": "boundaries-belonging-reading",
+          "label": "UTNS 6000 — Reading: Media on the border (TBA)"
         }
       ]
     },
     {
       "label": "Check + Errand",
       "items": [
+        {
+          "id": "update-rent-amount",
+          "label": "Update rent amount"
+        },
+        {
+          "id": "review-beyond-type1-lead",
+          "label": "Review Strategic Advisor lead at Beyond Type 1 — respond or pass"
+        },
         {
           "id": "fill-parsons-syllabus",
           "label": "Fill in ~/Documents/Claude/parsons-syllabus.md with upcoming readings & deadlines"
